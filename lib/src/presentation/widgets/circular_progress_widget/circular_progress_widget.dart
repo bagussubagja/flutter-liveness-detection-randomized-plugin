@@ -36,8 +36,7 @@ class CircularProgressWidget extends StatefulWidget {
   _CircularProgressWidgetState createState() => _CircularProgressWidgetState();
 }
 
-class _CircularProgressWidgetState extends State<CircularProgressWidget>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _CircularProgressWidgetState extends State<CircularProgressWidget> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   AnimationController? _animationController;
   Animation? _animation;
   double _current = 0.0;
