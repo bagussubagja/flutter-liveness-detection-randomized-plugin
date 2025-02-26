@@ -38,11 +38,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   late final List<LivenessDetectionStepItem> steps;
   final GlobalKey<LivenessDetectionStepOverlayWidgetState> _stepsKey = GlobalKey<LivenessDetectionStepOverlayWidgetState>();
 
-  static void shuffleListLivenessChallenge({
-    required List<LivenessDetectionStepItem> list,
-    required bool isSmileLast,
-    required String locale
-  }) {
+  static void shuffleListLivenessChallenge({required List<LivenessDetectionStepItem> list, required bool isSmileLast, required String locale}) {
     if (isSmileLast) {
       int? blinkIndex = list.indexWhere((item) => item.title == (locale == "en" ? "Blink 2-3 Times" : "Kedip 2-3 Kali"));
       int? smileIndex = list.indexWhere((item) => item.title == (locale == "en" ? "Smile" : "Senyum"));
@@ -65,7 +61,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _preInitCallBack();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _postFrameCallBack());
-    shuffleListLivenessChallenge(list: widget.locale == "en" ? stepLiveness : stepLivenessId, isSmileLast: widget.shuffleListWithSmileLast,locale : widget.locale);
+    shuffleListLivenessChallenge(list: widget.locale == "en" ? stepLiveness : stepLivenessId, isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
   }
 
   @override
@@ -241,7 +237,13 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     final String? imgPath = imgToReturn?.path;
     if (widget.isEnableSnackBar) {
       final snackBar = SnackBar(
-        content: Text(imgToReturn == null ? widget.locale == "en" ? 'Verification of liveness detection failed, please try again. (Exceeds time limit 45 second.)' : "Verifikasi deteksi keaktifan gagal, silakan coba lagi. (Melebihi batas waktu 45 detik.)" : widget.locale == "en" ? 'Verification of liveness detection success!' : 'Verifikasi keberhasilan deteksi keaktifan!'),
+        content: Text(imgToReturn == null
+            ? widget.locale == "en"
+                ? 'Verification of liveness detection failed, please try again. (Exceeds time limit 45 second.)'
+                : "Verifikasi deteksi keaktifan gagal, silakan coba lagi. (Melebihi batas waktu 45 detik.)"
+            : widget.locale == "en"
+                ? 'Verification of liveness detection success!'
+                : 'Verifikasi keberhasilan deteksi keaktifan!'),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -298,11 +300,15 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     if (_cameraController == null || _cameraController?.value.isInitialized == false) {
       return const Center(child: CircularProgressIndicator.adaptive());
     }
-
+    int rotationAngle = 0;
     final size = MediaQuery.of(context).size;
     var scale = size.aspectRatio * _cameraController!.value.aspectRatio;
     if (scale < 1) scale = 1 / scale;
-
+    if (_cameraController != null) {
+      if (Platform.isAndroid) {
+        rotationAngle = _cameraController?.description.sensorOrientation ?? 0;
+      }
+    }
     return Stack(
       children: [
         Container(
@@ -311,9 +317,14 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
           color: widget.isDarkMode ? Colors.black : Colors.white,
         ),
         LivenessDetectionStepOverlayWidget(
+          locale: "en",
           isDarkMode: widget.isDarkMode,
           isFaceDetected: _faceDetectedState,
-          camera: CameraPreview(_cameraController!),
+          camera: Transform.rotate(
+            angle: rotationAngle * (3.141592653589793 / 180), // Konversi derajat ke radian
+            child: CameraPreview(_cameraController!),
+          ),
+          // camera: CameraPreview(_cameraController!),
           key: _stepsKey,
           steps: stepLiveness,
           showCurrentStep: widget.showCurrentStep,

@@ -10,24 +10,16 @@ class LivenessDetectionStepOverlayWidget extends StatefulWidget {
   final bool isFaceDetected;
   final bool showCurrentStep;
   final bool isDarkMode;
+  final String locale;
 
-  const LivenessDetectionStepOverlayWidget({
-    super.key,
-    required this.steps,
-    required this.onCompleted,
-    required this.camera,
-    required this.isFaceDetected,
-    this.showCurrentStep = false,
-    this.isDarkMode = true,
-  });
+  const LivenessDetectionStepOverlayWidget(
+      {super.key, required this.steps, required this.onCompleted, required this.camera, required this.isFaceDetected, this.showCurrentStep = false, this.isDarkMode = true, this.locale = "en"});
 
   @override
-  State<LivenessDetectionStepOverlayWidget> createState() =>
-      LivenessDetectionStepOverlayWidgetState();
+  State<LivenessDetectionStepOverlayWidget> createState() => LivenessDetectionStepOverlayWidgetState();
 }
 
-class LivenessDetectionStepOverlayWidgetState
-    extends State<LivenessDetectionStepOverlayWidget> {
+class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionStepOverlayWidget> {
   int get currentIndex => _currentIndex;
 
   bool _isLoading = false;
@@ -137,25 +129,16 @@ class LivenessDetectionStepOverlayWidgetState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Back',
-                          style: TextStyle(
-                              color: widget.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black),
+                          widget.locale == "en" ? 'Back' : "Kembali",
+                          style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
                         ),
                         Text(
                           stepCounter,
-                          style: TextStyle(
-                              color: widget.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black),
+                          style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
                         )
                       ],
                     )
-                  : Text('Back',
-                      style: TextStyle(
-                          color:
-                              widget.isDarkMode ? Colors.white : Colors.black)),
+                  : Text(widget.locale == "en" ? 'Back' : "Kembali", style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black)),
             ),
             _buildBody(),
           ],
@@ -206,9 +189,7 @@ class LivenessDetectionStepOverlayWidgetState
                   width: widget.isFaceDetected ? 32 : 22,
                 )
               : ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                      widget.isFaceDetected ? Colors.green : Colors.black,
-                      BlendMode.modulate),
+                  colorFilter: ColorFilter.mode(widget.isFaceDetected ? Colors.green : Colors.black, BlendMode.modulate),
                   child: LottieBuilder.asset(
                     widget.isFaceDetected
                         ? 'packages/flutter_liveness_detection_randomized_plugin/src/core/assets/face-detected.json'
@@ -219,9 +200,14 @@ class LivenessDetectionStepOverlayWidgetState
         ),
         const SizedBox(width: 16),
         Text(
-          widget.isFaceDetected ? 'User Face Found' : 'User Face Not Found...',
-          style:
-              TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+          widget.isFaceDetected
+              ? widget.locale == "en"
+                  ? 'User Face Found'
+                  : "Wajah Pengguna Ditemukan"
+              : widget.locale == "en"
+                  ? 'User Face Not Found...'
+                  : "Wajah Pengguna Tidak Ditemukan...",
+          style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
         ),
       ],
     );
