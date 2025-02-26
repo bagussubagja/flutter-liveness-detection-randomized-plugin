@@ -13,7 +13,6 @@ class LivenessDetectionView extends StatefulWidget {
   final bool showCurrentStep;
   final bool isDarkMode;
   final String locale;
-
   const LivenessDetectionView(
       {super.key, required this.config, required this.isEnableSnackBar, this.isDarkMode = true, this.showCurrentStep = false, this.shuffleListWithSmileLast = true, required this.locale});
 
@@ -61,7 +60,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _preInitCallBack();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _postFrameCallBack());
-    shuffleListLivenessChallenge(list: stepLiveness , isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
+    shuffleListLivenessChallenge(list: stepLiveness, isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
   }
 
   @override
@@ -70,7 +69,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _timerToDetectFace = null;
     _cameraController?.dispose();
 
-    shuffleListLivenessChallenge(list:  stepLiveness , isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
+    shuffleListLivenessChallenge(list: stepLiveness, isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
     super.dispose();
   }
 
@@ -157,14 +156,13 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
       } else {
         setState(() => _faceDetectedState = true);
         final currentIndex = _stepsKey.currentState?.currentIndex ?? 0;
-     
-          if (currentIndex < stepLiveness.length) {
-            _detectFace(
-              face: faces.first,
-              step: stepLiveness[currentIndex].step,
-            );
-          }
-       
+
+        if (currentIndex < stepLiveness.length) {
+          _detectFace(
+            face: faces.first,
+            step: stepLiveness[currentIndex].step,
+          );
+        }
       }
     } else {
       _resetSteps();
@@ -252,7 +250,6 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   }
 
   void _resetSteps() {
-    
     for (var step in stepLiveness) {
       final index = stepLiveness.indexWhere((p1) => p1.step == step.step);
       stepLiveness[index] = stepLiveness[index].copyWith();
@@ -320,7 +317,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
           color: widget.isDarkMode ? Colors.black : Colors.white,
         ),
         LivenessDetectionStepOverlayWidget(
-          locale: "en",
+          locale: widget.locale,
           isDarkMode: widget.isDarkMode,
           isFaceDetected: _faceDetectedState,
           camera: Transform.rotate(
