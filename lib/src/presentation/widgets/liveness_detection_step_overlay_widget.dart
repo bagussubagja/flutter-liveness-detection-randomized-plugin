@@ -13,7 +13,7 @@ class LivenessDetectionStepOverlayWidget extends StatefulWidget {
   final String locale;
 
   const LivenessDetectionStepOverlayWidget(
-      {super.key, required this.steps, required this.onCompleted, required this.camera, required this.isFaceDetected, this.showCurrentStep = false, this.isDarkMode = true, this.locale = "en"});
+      {super.key, required this.steps, required this.onCompleted, required this.camera, required this.isFaceDetected, this.showCurrentStep = false, this.isDarkMode = true, required this.locale});
 
   @override
   State<LivenessDetectionStepOverlayWidget> createState() => LivenessDetectionStepOverlayWidgetState();
