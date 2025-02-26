@@ -37,8 +37,9 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
   @override
   void initState() {
     super.initState();
+    _initializeControllers();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializeControllers();
       locale = widget.locale;
       setState(() {});
     });
