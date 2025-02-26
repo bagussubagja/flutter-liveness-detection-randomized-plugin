@@ -22,10 +22,12 @@ class _LivenessDetectionTutorialScreenState extends State<LivenessDetectionTutor
       backgroundColor: widget.isDarkMode ? Colors.black : Colors.white,
       body: SafeArea(
         minimum: const EdgeInsets.all(12),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -125,7 +127,9 @@ class _LivenessDetectionTutorialScreenState extends State<LivenessDetectionTutor
                     ),
                   ),
                   icon: const Icon(Icons.camera_alt_outlined),
-                  onPressed: () => widget.onStartTap(),
+                  onPressed: () {
+                    widget.onStartTap();
+                  },
                   label: Text(
                     widget.locale == "en" ? "Start the Liveness Detection System" : "Mulai Sistem Deteksi Keaktifan",
                   ),
