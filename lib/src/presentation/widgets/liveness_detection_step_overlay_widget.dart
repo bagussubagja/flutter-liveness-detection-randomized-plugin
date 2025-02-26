@@ -21,7 +21,7 @@ class LivenessDetectionStepOverlayWidget extends StatefulWidget {
 
 class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionStepOverlayWidget> {
   int get currentIndex => _currentIndex;
-
+  String locale = "id";
   bool _isLoading = false;
   int _currentIndex = 0;
   double _currentStepIndicator = 0;
@@ -37,8 +37,12 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
   @override
   void initState() {
     super.initState();
-    _initializeControllers();
-    print('showCurrentStep ${widget.showCurrentStep}');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeControllers();
+      // locale = locale;
+      setState(() {});
+    });
+    // print('showCurrentStep ${widget.showCurrentStep}');
   }
 
   void _initializeControllers() {
@@ -129,7 +133,7 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.locale == "en" ? 'Back' : "Kembali",
+                          locale == "en" ? 'Back' : "Kembali",
                           style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
                         ),
                         Text(
@@ -138,7 +142,7 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
                         )
                       ],
                     )
-                  : Text(widget.locale == "en" ? 'Back' : "Kembali", style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black)),
+                  : Text(locale == "en" ? 'Back' : "Kembali", style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black)),
             ),
             _buildBody(),
           ],
@@ -201,10 +205,10 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
         const SizedBox(width: 16),
         Text(
           widget.isFaceDetected
-              ? widget.locale == "en"
+              ? locale == "en"
                   ? 'User Face Found'
                   : "Wajah Pengguna Ditemukan"
-              : widget.locale == "en"
+              : locale == "en"
                   ? 'User Face Not Found...'
                   : "Wajah Pengguna Tidak Ditemukan...",
           style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
