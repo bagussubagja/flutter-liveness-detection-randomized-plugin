@@ -26,30 +26,3 @@ List<LivenessDetectionStepItem> stepLiveness = [
     title: "Smile",
   ),
 ];
-
-List<LivenessDetectionStepItem> stepLivenessId = [
-  LivenessDetectionStepItem(
-    step: LivenessDetectionStep.blink,
-    title: "Kedip 2-3 Kali",
-  ),
-  LivenessDetectionStepItem(
-    step: LivenessDetectionStep.lookUp,
-    title: "Menghadap ke atas",
-  ),
-  LivenessDetectionStepItem(
-    step: LivenessDetectionStep.lookDown,
-    title: "Menghadap Ke bawah",
-  ),
-  LivenessDetectionStepItem(
-    step: LivenessDetectionStep.lookRight,
-    title: "Menoleh ke kanan",
-  ),
-  LivenessDetectionStepItem(
-    step: LivenessDetectionStep.lookLeft,
-    title: "Menoleh ke kiri",
-  ),
-  LivenessDetectionStepItem(
-    step: LivenessDetectionStep.smile,
-    title: "Senyum",
-  ),
-];

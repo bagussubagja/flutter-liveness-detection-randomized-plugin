@@ -21,7 +21,7 @@ class LivenessDetectionStepOverlayWidget extends StatefulWidget {
 
 class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionStepOverlayWidget> {
   int get currentIndex => _currentIndex;
-  String locale = "id";
+  String locale = "en";
   bool _isLoading = false;
   int _currentIndex = 0;
   double _currentStepIndicator = 0;
@@ -39,7 +39,7 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initializeControllers();
-      // locale = locale;
+      locale = widget.locale;
       setState(() {});
     });
     // print('showCurrentStep ${widget.showCurrentStep}');
@@ -232,6 +232,21 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
     );
   }
 
+  String getLocalizedTitle(String locale, String title) {
+    if (locale == "en") return title;
+
+    Map<String, String> translations = {
+      "Blink 2-3 Times": "Kedip 2-3 Kali",
+      "Look UP": "Menghadap Ke Atas",
+      "Look DOWN": "Menghadap Ke Bawah",
+      "Look RIGHT": "Menghadap Ke Kanan",
+      "Look LEFT": "Menghadap Ke Kiri",
+      "Smile": "Tersenyum",
+    };
+
+    return translations[title] ?? title;
+  }
+
   Widget _buildStepItem(BuildContext context, int index) {
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -244,7 +259,7 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
         margin: const EdgeInsets.symmetric(horizontal: 30),
         padding: const EdgeInsets.all(10),
         child: Text(
-          widget.steps[index].title,
+          getLocalizedTitle(locale, widget.steps[index].title),
           textAlign: TextAlign.center,
           style: TextStyle(
             color: widget.isDarkMode ? Colors.white : Colors.black,

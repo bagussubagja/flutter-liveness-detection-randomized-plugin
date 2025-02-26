@@ -61,7 +61,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _preInitCallBack();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _postFrameCallBack());
-    shuffleListLivenessChallenge(list: widget.locale == "en" ? stepLiveness : stepLivenessId, isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
+    shuffleListLivenessChallenge(list: stepLiveness , isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
   }
 
   @override
@@ -70,7 +70,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _timerToDetectFace = null;
     _cameraController?.dispose();
 
-    shuffleListLivenessChallenge(list: widget.locale == "en" ? stepLiveness : stepLivenessId, isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
+    shuffleListLivenessChallenge(list:  stepLiveness , isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
     super.dispose();
   }
 
@@ -156,14 +156,15 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
         setState(() => _faceDetectedState = false);
       } else {
         setState(() => _faceDetectedState = true);
-
         final currentIndex = _stepsKey.currentState?.currentIndex ?? 0;
-        if (currentIndex < stepLiveness.length) {
-          _detectFace(
-            face: faces.first,
-            step: stepLiveness[currentIndex].step,
-          );
-        }
+     
+          if (currentIndex < stepLiveness.length) {
+            _detectFace(
+              face: faces.first,
+              step: stepLiveness[currentIndex].step,
+            );
+          }
+       
       }
     } else {
       _resetSteps();
@@ -251,6 +252,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   }
 
   void _resetSteps() {
+    
     for (var step in stepLiveness) {
       final index = stepLiveness.indexWhere((p1) => p1.step == step.step);
       stepLiveness[index] = stepLiveness[index].copyWith();
