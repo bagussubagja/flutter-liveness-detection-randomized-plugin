@@ -107,7 +107,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   }
 
   void _startFaceDetectionTimer() {
-    _timerToDetectFace = Timer(const Duration(seconds: 45), () => _onDetectionCompleted(imgToReturn: null));
+    _timerToDetectFace = Timer(const Duration(seconds: 60), () => _onDetectionCompleted(imgToReturn: null));
   }
 
   Future<void> _processCameraImage(CameraImage cameraImage) async {
@@ -239,8 +239,8 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
       final snackBar = SnackBar(
         content: Text(imgToReturn == null
             ? widget.locale == "en"
-                ? 'Verification of liveness detection failed, please try again. (Exceeds time limit 45 second.)'
-                : "Verifikasi deteksi keaktifan gagal, silakan coba lagi. (Melebihi batas waktu 45 detik.)"
+                ? 'Verification of liveness detection failed, please try again. (Exceeds time limit 60 second.)'
+                : "Verifikasi deteksi keaktifan gagal, silakan coba lagi. (Melebihi batas waktu 60 detik.)"
             : widget.locale == "en"
                 ? 'Verification of liveness detection success!'
                 : 'Verifikasi keberhasilan deteksi keaktifan!'),
