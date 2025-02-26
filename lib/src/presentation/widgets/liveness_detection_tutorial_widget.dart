@@ -23,14 +23,12 @@ class _LivenessDetectionTutorialScreenState extends State<LivenessDetectionTutor
       body: SafeArea(
         minimum: const EdgeInsets.all(12),
         child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(),
                 const SizedBox(
                   height: 16,
                 ),
@@ -135,7 +133,6 @@ class _LivenessDetectionTutorialScreenState extends State<LivenessDetectionTutor
                 const SizedBox(
                   height: 10,
                 ),
-                const Spacer(),
                 // const Row(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [
