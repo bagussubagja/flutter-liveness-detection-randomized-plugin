@@ -220,7 +220,6 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
 
   Widget _buildStepPageView() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 10,
       width: MediaQuery.of(context).size.width,
       child: AbsorbPointer(
         absorbing: true,
