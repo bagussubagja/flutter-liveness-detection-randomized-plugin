@@ -82,7 +82,7 @@ class _LivenessDetectionTutorialScreenState extends State<LivenessDetectionTutor
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: widget.isDarkMode ? Colors.white : Colors.black),
                     ),
                     subtitle: Text(
-                      widget.locale == "en" ? "Hold the phone at eye level and look straight at the camera" : "Pegang perangkat sejajar dengan tinggi mata dan lihat lurus kedepan ke arah kamera",
+                      widget.locale == "en" ? "Hold the phone at eye level and look straight at the camera" : "Pegang perangkat sejajar dengan tinggi mata dan lihat lurus kedepan ke arah kamera, jika memakai kacamata usahakan dilepas untuk memudahkan pengenalan",
                       style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
                     ),
                     title: Text(

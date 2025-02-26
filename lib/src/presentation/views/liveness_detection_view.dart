@@ -300,10 +300,11 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     if (_cameraController == null || _cameraController?.value.isInitialized == false) {
       return const Center(child: CircularProgressIndicator.adaptive());
     }
-    int rotationAngle = 0;
+
     final size = MediaQuery.of(context).size;
     var scale = size.aspectRatio * _cameraController!.value.aspectRatio;
     if (scale < 1) scale = 1 / scale;
+    int rotationAngle = 0;
     if (_cameraController != null) {
       if (Platform.isAndroid) {
         rotationAngle = _cameraController?.description.sensorOrientation ?? 0;
