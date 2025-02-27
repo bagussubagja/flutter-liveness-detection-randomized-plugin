@@ -38,9 +38,9 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   final GlobalKey<LivenessDetectionStepOverlayWidgetState> _stepsKey = GlobalKey<LivenessDetectionStepOverlayWidgetState>();
 
   static void shuffleListLivenessChallenge({required List<LivenessDetectionStepItem> list, required bool isSmileLast, required String locale}) {
-    if (isSmileLast) {
-      int? blinkIndex = list.indexWhere((item) => item.title == (locale == "en" ? "Blink 2-3 Times" : "Kedip 2-3 Kali"));
-      int? smileIndex = list.indexWhere((item) => item.title == (locale == "en" ? "Smile" : "Senyum"));
+    if (isSmileLast == true) {
+      int? blinkIndex = list.indexWhere((item) => item.title == "Blink 2-3 Times");
+      int? smileIndex = list.indexWhere((item) => item.title == "Smile");
       if (blinkIndex != -1 && smileIndex != -1) {
         LivenessDetectionStepItem blinkItem = list.removeAt(blinkIndex);
         LivenessDetectionStepItem smileItem = list.removeAt(smileIndex > blinkIndex ? smileIndex - 1 : smileIndex);
