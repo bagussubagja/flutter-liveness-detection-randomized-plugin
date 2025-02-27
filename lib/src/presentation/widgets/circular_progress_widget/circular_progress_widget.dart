@@ -132,5 +132,11 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget> with Si
   }
 
   @override
+  void dispose() {
+    _animationController?.dispose(); // Melepaskan AnimationController
+    super.dispose();
+  }
+
+  @override
   bool get wantKeepAlive => true;
 }
