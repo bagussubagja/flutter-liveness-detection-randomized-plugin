@@ -68,8 +68,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _timerToDetectFace?.cancel();
     _timerToDetectFace = null;
     _cameraController?.dispose();
-
-    shuffleListLivenessChallenge(list: stepLiveness, isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
+    // shuffleListLivenessChallenge(list: stepLiveness, isSmileLast: widget.shuffleListWithSmileLast, locale: widget.locale);
     super.dispose();
   }
 
@@ -100,7 +99,9 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _cameraController?.initialize().then((_) {
       if (!mounted) return;
       _cameraController?.startImageStream(_processCameraImage);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     _startFaceDetectionTimer();
   }
@@ -152,11 +153,14 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     if (inputImage.metadata?.size != null && inputImage.metadata?.rotation != null) {
       if (faces.isEmpty) {
         _resetSteps();
-        setState(() => _faceDetectedState = false);
+        if (mounted) {
+          setState(() => _faceDetectedState = false);
+        }
       } else {
-        setState(() => _faceDetectedState = true);
+        if (mounted) {
+          setState(() => _faceDetectedState = true);
+        }
         final currentIndex = _stepsKey.currentState?.currentIndex ?? 0;
-
         if (currentIndex < stepLiveness.length) {
           _detectFace(
             face: faces.first,
@@ -178,7 +182,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   }) async {
     if (_isProcessingStep) return;
 
-    debugPrint('Current Step: $step');
+    // debugPrint('Current Step: $step');
 
     switch (step) {
       case LivenessDetectionStep.blink:
@@ -216,8 +220,9 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   void _takePicture() async {
     try {
       if (_cameraController == null || _isTakingPicture) return;
-
-      setState(() => _isTakingPicture = true);
+      if (mounted) {
+        setState(() => _isTakingPicture = true);
+      }
       await _cameraController?.stopImageStream();
 
       final XFile? clickedImage = await _cameraController?.takePicture();
@@ -225,7 +230,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
         _startLiveFeed();
         return;
       }
-      debugPrint('Image path: ${clickedImage.path}');
+      // debugPrint('Image path: ${clickedImage.path}');
       _onDetectionCompleted(imgToReturn: clickedImage);
     } catch (e) {
       _startLiveFeed();

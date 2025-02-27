@@ -54,9 +54,11 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget> with Si
         curve: widget.curve,
       ),
     )..addListener(() {
-        setState(() {
-          _current = _animation!.value;
-        });
+        if (mounted) {
+          setState(() {
+            _current = _animation!.value;
+          });
+        }
       });
 
     _animationController!.forward();
@@ -84,7 +86,9 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget> with Si
   }
 
   _updateProgress() {
-    setState(() => _current = widget.current);
+    if (mounted) {
+      setState(() => _current = widget.current);
+    }
   }
 
   @override

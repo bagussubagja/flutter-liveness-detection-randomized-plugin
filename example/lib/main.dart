@@ -59,9 +59,7 @@ class _HomeViewState extends State<HomeView> {
           ElevatedButton.icon(
               icon: const Icon(Icons.camera_alt_rounded),
               onPressed: () async {
-                final String? response =
-                    await FlutterLivenessDetectionRandomizedPlugin.instance
-                        .livenessDetection(
+                final String? response = await FlutterLivenessDetectionRandomizedPlugin.instance.livenessDetection(
                   showCurrentStep: true,
                   context: context,
                   shuffleListWithSmileLast: false,
@@ -71,9 +69,11 @@ class _HomeViewState extends State<HomeView> {
                     startWithInfoScreen: true,
                   ),
                 );
-                setState(() {
-                  imgPath = response;
-                });
+                if (mounted) {
+                  setState(() {
+                    imgPath = response;
+                  });
+                }
               },
               label: const Text('Liveness Detection System')),
         ],

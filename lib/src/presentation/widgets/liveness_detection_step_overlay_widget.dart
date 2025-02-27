@@ -41,7 +41,9 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       locale = widget.locale;
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     // print('showCurrentStep ${widget.showCurrentStep}');
   }
@@ -97,24 +99,33 @@ class LivenessDetectionStepOverlayWidgetState extends State<LivenessDetectionSte
   }
 
   void _updateState() {
-    setState(() {
-      _currentIndex++;
-      _currentStepIndicator += _stepIncrement;
-      _circularProgressWidget = _buildCircularIndicator();
-    });
+    if (mounted) {
+      setState(() {
+        _currentIndex++;
+        _currentStepIndicator += _stepIncrement;
+        _circularProgressWidget = _buildCircularIndicator();
+      });
+    }
   }
 
   void reset() {
     _pageController.jumpToPage(0);
-    setState(() {
-      _currentIndex = 0;
-      _currentStepIndicator = 0;
-      _circularProgressWidget = _buildCircularIndicator();
-    });
+    if (mounted) {
+      setState(() {
+        _currentIndex = 0;
+        _currentStepIndicator = 0;
+        _circularProgressWidget = _buildCircularIndicator();
+      });
+    }
   }
 
-  void _showLoader() => setState(() => _isLoading = true);
-  void _hideLoader() => setState(() => _isLoading = false);
+  void _showLoader() {
+    if (mounted) setState(() => _isLoading = true);
+  }
+
+  void _hideLoader() {
+    if (mounted) setState(() => _isLoading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
