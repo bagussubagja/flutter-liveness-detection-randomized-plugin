@@ -36,8 +36,7 @@ class CircularProgressWidget extends StatefulWidget {
   _CircularProgressWidgetState createState() => _CircularProgressWidgetState();
 }
 
-class _CircularProgressWidgetState extends State<CircularProgressWidget>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _CircularProgressWidgetState extends State<CircularProgressWidget> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   AnimationController? _animationController;
   Animation? _animation;
   double _current = 0.0;
@@ -55,9 +54,11 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget>
         curve: widget.curve,
       ),
     )..addListener(() {
-        setState(() {
-          _current = _animation!.value;
-        });
+        if (mounted) {
+          setState(() {
+            _current = _animation!.value;
+          });
+        }
       });
 
     _animationController!.forward();
@@ -85,7 +86,9 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget>
   }
 
   _updateProgress() {
-    setState(() => _current = widget.current);
+    if (mounted) {
+      setState(() => _current = widget.current);
+    }
   }
 
   @override
@@ -126,6 +129,12 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget>
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController?.dispose(); // Melepaskan AnimationController
+    super.dispose();
   }
 
   @override
