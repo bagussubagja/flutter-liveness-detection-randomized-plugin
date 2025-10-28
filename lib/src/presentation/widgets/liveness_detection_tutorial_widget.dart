@@ -56,7 +56,7 @@ class _LivenessDetectionTutorialScreenState
                 boxShadow: !widget.isDarkMode
                     ? [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
+                          color: Colors.grey.withAlpha(51),
                           spreadRadius: 5,
                           blurRadius: 7,
                           offset: const Offset(0, 3),
