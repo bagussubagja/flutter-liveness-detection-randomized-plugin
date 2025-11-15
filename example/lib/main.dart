@@ -69,6 +69,12 @@ class _HomeViewState extends State<HomeView> {
                         false, // set to true value for enable 'customizedLabel', set to false to use default label
                     enableCooldownOnFailure:
                         true, // enable 10 minutes cooldown after 3 failed attempts
+                    isEnableSnackBar:
+                        true, // snackbar to notify either liveness is success or failed
+                    shuffleListWithSmileLast:
+                        true, // put 'smile' challenge always at the end of liveness challenge, if `useCustomizedLabel` is true, this automatically set to false
+                    isDarkMode: false, // enable dark/light mode
+                    showCurrentStep: true, // show number current step of liveness
                     // provide an empty string if you want to pass the liveness challenge
                     customizedLabel: LivenessDetectionLabelModel(
                       blink:
@@ -81,12 +87,6 @@ class _HomeViewState extends State<HomeView> {
                       smile: null, // null value to use default label name
                     ),
                   ),
-                  isEnableSnackBar:
-                      true, // snackbar to notify either liveness is success or failed
-                  shuffleListWithSmileLast:
-                      true, // put 'smile' challenge always at the end of liveness challenge, if `useCustomizedLabel` is true, this automatically set to false
-                  isDarkMode: false, // enable dark/light mode
-                  showCurrentStep: true, // show number current step of liveness
                 );
                 if (mounted) {
                   setState(() {

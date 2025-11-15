@@ -13,10 +13,6 @@ class FlutterLivenessDetectionRandomizedPlugin {
   Future<String?> livenessDetection({
     required BuildContext context,
     required LivenessDetectionConfig config,
-    required bool isEnableSnackBar,
-    required bool shuffleListWithSmileLast,
-    required bool showCurrentStep,
-    required bool isDarkMode,
   }) async {
     if (config.enableCooldownOnFailure) {
       LivenessCooldownService.instance.configure(
@@ -29,7 +25,7 @@ class FlutterLivenessDetectionRandomizedPlugin {
           MaterialPageRoute(
             builder: (context) => LivenessCooldownWidget(
               cooldownState: cooldownState,
-              isDarkMode: isDarkMode,
+              isDarkMode: config.isDarkMode,
               maxFailedAttempts: config.maxFailedAttempts,
             ),
           ),
@@ -44,10 +40,6 @@ class FlutterLivenessDetectionRandomizedPlugin {
       MaterialPageRoute(
         builder: (context) => LivenessDetectionView(
           config: config,
-          isEnableSnackBar: isEnableSnackBar,
-          shuffleListWithSmileLast: shuffleListWithSmileLast,
-          showCurrentStep: showCurrentStep,
-          isDarkMode: isDarkMode,
         ),
       ),
     );

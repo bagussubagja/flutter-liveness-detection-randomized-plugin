@@ -1,3 +1,45 @@
+# 1.2.0 🚀
+
+## BREAKING CHANGES ⚠️
+- 🔄 **API Refactor**: All parameters now consolidated into `LivenessDetectionConfig`
+- 📦 **Simplified API**: `livenessDetection()` method now only requires `context` and `config`
+- 🛠️ **Migration Required**: Update your implementation to use the new unified config approach
+
+### What Changed:
+- ✅ Moved `isEnableSnackBar` to config
+- ✅ Moved `shuffleListWithSmileLast` to config  
+- ✅ Moved `showCurrentStep` to config
+- ✅ Moved `isDarkMode` to config
+- 📚 Updated documentation with migration guide
+- 🎯 Cleaner, more maintainable API structure
+
+### Migration Guide:
+**Before (v1.1.x):**
+```dart
+await plugin.livenessDetection(
+  context: context,
+  config: LivenessDetectionConfig(...),
+  isEnableSnackBar: true,
+  shuffleListWithSmileLast: true,
+  showCurrentStep: true,
+  isDarkMode: false,
+);
+```
+
+**After (v1.2.0+):**
+```dart
+await plugin.livenessDetection(
+  context: context,
+  config: LivenessDetectionConfig(
+    isEnableSnackBar: true,
+    shuffleListWithSmileLast: true,
+    showCurrentStep: true,
+    isDarkMode: false,
+    // ... other parameters
+  ),
+);
+```
+
 # 1.1.0 🚀
 
 - ⏱️ **NEW**: Automatic cooldown feature after 3 failed verification attempts

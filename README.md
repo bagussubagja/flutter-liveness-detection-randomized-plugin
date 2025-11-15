@@ -11,6 +11,12 @@ A Flutter plugin for liveness detection with randomized challenge response metho
 
 https://github.com/user-attachments/assets/f7266dc9-c4a2-4fba-8684-0ead2f678180
 
+## Update 1.2.0
+- 🔄 **BREAKING CHANGE**: All parameters consolidated into `LivenessDetectionConfig`
+- 🎯 Simplified API - only requires `context` and `config` parameters
+- 📚 Updated documentation with migration guide
+- 🛠️ Cleaner, more maintainable code structure
+
 ## Update 1.1.0
 - ⏱️ Added automatic cooldown feature after 3 failed verification attempts
 - 🔒 10-minute waiting period with persistent countdown (survives app restarts)
@@ -40,53 +46,174 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_liveness_detection_randomized_plugin: ^1.1.0
+  flutter_liveness_detection_randomized_plugin: ^1.2.0
 ```
+
+## Usage 🚀
+
+```dart
+final String? response = await FlutterLivenessDetectionRandomizedPlugin.instance.livenessDetection(
+  context: context,
+  config: LivenessDetectionConfig(
+    // Camera & Image Settings
+    cameraResolution: ResolutionPreset.medium, // Camera resolution
+    imageQuality: 100, // Image quality (0-100)
+    isEnableMaxBrightness: true, // Auto brightness adjustment
+    
+    // Detection Settings
+    durationLivenessVerify: 60, // Detection timeout in seconds
+    showDurationUiText: false, // Show countdown timer
+    startWithInfoScreen: true, // Show tutorial screen
+    
+    // UI Settings
+    isDarkMode: false, // Dark/light theme
+    showCurrentStep: true, // Show step counter
+    isEnableSnackBar: true, // Show result notifications
+    shuffleListWithSmileLast: true, // Randomize challenges with smile last
+    
+    // Customization
+    useCustomizedLabel: false, // Enable custom labels
+    customizedLabel: LivenessDetectionLabelModel(
+      blink: '', // Empty string to skip challenge
+      lookDown: '',
+      lookLeft: '',
+      lookRight: '',
+      lookUp: 'Tengok Atas', // Custom label
+      smile: null, // null for default label
+    ),
+    
+    // Security Features
+    enableCooldownOnFailure: true, // Enable cooldown after failures
+    maxFailedAttempts: 3, // Failed attempts before cooldown
+    cooldownMinutes: 10, // Cooldown duration
+  ),
+);
+```
+
+## Configuration Parameters 📋
+
+### Camera & Image Settings
+- `cameraResolution`: Camera quality (ResolutionPreset.low/medium/high)
+- `imageQuality`: Output image quality 0-100 (default: 100)
+- `isEnableMaxBrightness`: Auto brightness adjustment (default: true)
+
+### Detection Settings  
+- `durationLivenessVerify`: Detection timeout in seconds (default: 45)
+- `showDurationUiText`: Show countdown timer (default: false)
+- `startWithInfoScreen`: Show tutorial before detection (default: false)
+
+### UI Settings
+- `isDarkMode`: Dark theme mode (default: true)
+- `showCurrentStep`: Show current step number (default: false)
+- `isEnableSnackBar`: Show success/failure notifications (default: true)
+- `shuffleListWithSmileLast`: Randomize challenges with smile at end (default: true)
+
+### Customization
+- `useCustomizedLabel`: Enable custom challenge labels (default: false)
+- `customizedLabel`: Custom labels for each challenge type
+
+### Security Features
+- `enableCooldownOnFailure`: Enable cooldown after failed attempts (default: true)
+- `maxFailedAttempts`: Number of failures before cooldown (default: 3)
+- `cooldownMinutes`: Cooldown duration in minutes (default: 10)
 
 ## Cooldown Feature
-The plugin now includes an automatic cooldown mechanism to prevent brute force attempts:
-- Configurable number of failed attempts before cooldown (default: 3)
-- Configurable cooldown duration (default: 10 minutes)
-- The countdown timer only decreases when the app is active (foreground)
-- Cooldown state persists even if the app is closed and reopened
-- Users will see a countdown screen during the cooldown period
-- Enable/disable this feature using `enableCooldownOnFailure` parameter
-
-```dart
-config: LivenessDetectionConfig(
-  enableCooldownOnFailure: true, // Enable cooldown feature (default: true)
-  maxFailedAttempts: 5, // Number of failed attempts before cooldown (default: 3)
-  cooldownMinutes: 15, // Cooldown duration in minutes (default: 10)
-),
-```
+The plugin includes an automatic cooldown mechanism to prevent brute force attempts:
+- Configurable number of failed attempts before cooldown
+- Configurable cooldown duration
+- Countdown timer only decreases when app is active
+- Cooldown state persists through app restarts
+- Users see a countdown screen during cooldown period
 
 ## Customized Steps Label
-You can customized steps label or use certain step only of liveness challenge with this example :
+You can customize challenge labels or skip certain challenges:
+- Use empty string `''` to skip a challenge
+- Use `null` to keep default label
+- Provide custom string for personalized labels
+
+## Complete Example 💡
+
 ```dart
-config: LivenessDetectionConfig(
-customizedLabel: LivenessDetectionLabelModel(
-  blink: '', // add empty string to skip/pass this liveness challenge
-  lookDown: '',
-  lookLeft: '',
-  lookRight: '',
-  lookUp: 'Tengok Atas', // example of customize label name for liveness challenge. it will replace default 'look up'
-  smile: null, // null value to use default label name
-),
-),
+import 'package:flutter_liveness_detection_randomized_plugin/index.dart';
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              final result = await FlutterLivenessDetectionRandomizedPlugin.instance.livenessDetection(
+                context: context,
+                config: LivenessDetectionConfig(
+                  startWithInfoScreen: true,
+                  isDarkMode: false,
+                  showCurrentStep: true,
+                  isEnableSnackBar: true,
+                ),
+              );
+              
+              if (result != null) {
+                // Liveness detection successful
+                print('Face captured: $result');
+              } else {
+                // Detection failed or cancelled
+                print('Detection failed');
+              }
+            },
+            child: Text('Start Liveness Detection'),
+          ),
+        ),
+      ),
+    );
+  }
+}
 ```
 
 ## Platform Setup
 
 ### Android
-Add camera permission to your AndroidManifest.xml:
+Add camera permission to your `android/app/src/main/AndroidManifest.xml`:
 ```xml
 <uses-permission android:name="android.permission.CAMERA"/>
 ```
 Minimum SDK version: 23
 
 ### iOS
-Add camera usage description to Info.plist:
+Add camera usage description to `ios/Runner/Info.plist`:
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>Camera access is required for liveness detection</string>
+```
+
+## Migration Guide 🔄
+
+### From v1.0.x to v1.1.0+
+All parameters are now consolidated into the `LivenessDetectionConfig` object:
+
+**Before:**
+```dart
+await plugin.livenessDetection(
+  context: context,
+  config: LivenessDetectionConfig(...),
+  isEnableSnackBar: true,
+  shuffleListWithSmileLast: true,
+  showCurrentStep: true,
+  isDarkMode: false,
+);
+```
+
+**After:**
+```dart
+await plugin.livenessDetection(
+  context: context,
+  config: LivenessDetectionConfig(
+    isEnableSnackBar: true,
+    shuffleListWithSmileLast: true,
+    showCurrentStep: true,
+    isDarkMode: false,
+    // ... other parameters
+  ),
+);
 ```

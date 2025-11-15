@@ -10,18 +10,10 @@ List<CameraDescription> availableCams = [];
 
 class LivenessDetectionView extends StatefulWidget {
   final LivenessDetectionConfig config;
-  final bool isEnableSnackBar;
-  final bool shuffleListWithSmileLast;
-  final bool showCurrentStep;
-  final bool isDarkMode;
 
   const LivenessDetectionView({
     super.key,
     required this.config,
-    required this.isEnableSnackBar,
-    this.isDarkMode = true,
-    this.showCurrentStep = false,
-    this.shuffleListWithSmileLast = true,
   });
 
   @override
@@ -233,7 +225,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
           : stepLiveness,
       isSmileLast: widget.config.useCustomizedLabel
           ? false
-          : widget.shuffleListWithSmileLast,
+          : widget.config.shuffleListWithSmileLast,
     );
     if (widget.config.isEnableMaxBrightness) {
       resetApplicationBrightness();
@@ -251,7 +243,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
           : stepLiveness,
       isSmileLast: widget.config.useCustomizedLabel
           ? false
-          : widget.shuffleListWithSmileLast,
+          : widget.config.shuffleListWithSmileLast,
     );
     if (widget.config.isEnableMaxBrightness) {
       setApplicationBrightness(1.0);
@@ -289,7 +281,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
               widget.config.customizedLabel != null
           ? customizedLivenessLabel(widget.config.customizedLabel!)
           : stepLiveness,
-      isSmileLast: widget.shuffleListWithSmileLast,
+      isSmileLast: widget.config.shuffleListWithSmileLast,
     );
   }
 
@@ -483,7 +475,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
       final double sizeInKb = fileSizeInBytes / 1024;
       debugPrint('Image result size : ${sizeInKb.toStringAsFixed(2)} KB');
     }
-    if (widget.isEnableSnackBar) {
+    if (widget.config.isEnableSnackBar) {
       final snackBar = SnackBar(
         content: Text(
           imgToReturn == null
@@ -541,7 +533,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: widget.isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: widget.config.isDarkMode ? Colors.black : Colors.white,
       body: _buildBody(),
     );
   }
@@ -553,7 +545,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
             ? _buildDetectionBody()
             : LivenessDetectionTutorialScreen(
                 duration: widget.config.durationLivenessVerify ?? 45,
-                isDarkMode: widget.isDarkMode,
+                isDarkMode: widget.config.isDarkMode,
                 onStartTap: () {
                   if (mounted) setState(() => _isInfoStepCompleted = true);
                   _startLiveFeed();
@@ -574,20 +566,20 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
         Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: widget.isDarkMode ? Colors.black : Colors.white,
+          color: widget.config.isDarkMode ? Colors.black : Colors.white,
         ),
         LivenessDetectionStepOverlayWidget(
           cameraController: _cameraController,
           duration: widget.config.durationLivenessVerify,
           showDurationUiText: widget.config.showDurationUiText,
-          isDarkMode: widget.isDarkMode,
+          isDarkMode: widget.config.isDarkMode,
           isFaceDetected: _faceDetectedState,
           camera: CameraPreview(_cameraController!),
           key: _stepsKey,
           steps: widget.config.useCustomizedLabel
               ? customizedLivenessLabel(widget.config.customizedLabel!)
               : stepLiveness,
-          showCurrentStep: widget.showCurrentStep,
+          showCurrentStep: widget.config.showCurrentStep,
           onCompleted: () => Future.delayed(
             const Duration(milliseconds: 500),
             () => _takePicture(),

@@ -13,6 +13,10 @@ class LivenessDetectionConfig {
   final bool enableCooldownOnFailure;
   final int maxFailedAttempts;
   final int cooldownMinutes;
+  final bool isEnableSnackBar;
+  final bool shuffleListWithSmileLast;
+  final bool showCurrentStep;
+  final bool isDarkMode;
 
   LivenessDetectionConfig({
     this.startWithInfoScreen = false,
@@ -26,5 +30,9 @@ class LivenessDetectionConfig {
     this.enableCooldownOnFailure = true,
     this.maxFailedAttempts = 3,
     this.cooldownMinutes = 10,
+    this.isEnableSnackBar = true,
+    this.shuffleListWithSmileLast = true,
+    this.showCurrentStep = false,
+    this.isDarkMode = true,
   });
 }
