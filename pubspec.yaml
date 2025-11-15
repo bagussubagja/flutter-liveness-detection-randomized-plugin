@@ -20,6 +20,7 @@ dependencies:
   lottie: ^2.4.0
   collection: ^1.18.0
   screen_brightness: ^2.1.2
+  shared_preferences: ^2.2.2
 
 dependency_overrides:
   camera_android_camerax: 0.6.10+1

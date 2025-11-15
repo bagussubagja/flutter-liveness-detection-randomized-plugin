@@ -10,6 +10,9 @@ class LivenessDetectionConfig {
   final bool isEnableMaxBrightness;
   final int imageQuality;
   final ResolutionPreset cameraResolution;
+  final bool enableCooldownOnFailure;
+  final int maxFailedAttempts;
+  final int cooldownMinutes;
 
   LivenessDetectionConfig({
     this.startWithInfoScreen = false,
@@ -20,5 +23,8 @@ class LivenessDetectionConfig {
     this.isEnableMaxBrightness = true,
     this.imageQuality = 100,
     this.cameraResolution = ResolutionPreset.high,
+    this.enableCooldownOnFailure = true,
+    this.maxFailedAttempts = 3,
+    this.cooldownMinutes = 10,
   });
 }

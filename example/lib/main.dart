@@ -1,10 +1,9 @@
 import 'package:flutter_liveness_detection_randomized_plugin/index.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: HomeView(),
-  ));
+  runApp(
+    const MaterialApp(debugShowCheckedModeBanner: false, home: HomeView()),
+  );
 }
 
 class HomeView extends StatefulWidget {
@@ -27,41 +26,33 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(12),
-        children: [
-          if (imgPath != null) ...[
-            const Text(
-              'Result Liveness Detection',
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Align(
-              child: SizedBox(
-                height: 100,
-                width: 100,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.file(
-                    File(imgPath!),
-                    fit: BoxFit.cover,
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(12),
+          children: [
+            if (imgPath != null) ...[
+              const Text(
+                'Result Liveness Detection',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Align(
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.file(File(imgPath!), fit: BoxFit.cover),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-          ],
-          ElevatedButton.icon(
+              const SizedBox(height: 12),
+            ],
+            ElevatedButton.icon(
               icon: const Icon(Icons.camera_alt_rounded),
               onPressed: () async {
-                final String? response =
-                    await FlutterLivenessDetectionRandomizedPlugin.instance
-                        .livenessDetection(
+                final String?
+                response = await FlutterLivenessDetectionRandomizedPlugin.instance.livenessDetection(
                   context: context,
                   config: LivenessDetectionConfig(
                     cameraResolution: ResolutionPreset
@@ -76,6 +67,8 @@ class _HomeViewState extends State<HomeView> {
                     startWithInfoScreen: true, // show or hide tutorial screen
                     useCustomizedLabel:
                         false, // set to true value for enable 'customizedLabel', set to false to use default label
+                    enableCooldownOnFailure:
+                        true, // enable 10 minutes cooldown after 3 failed attempts
                     // provide an empty string if you want to pass the liveness challenge
                     customizedLabel: LivenessDetectionLabelModel(
                       blink:
@@ -101,9 +94,11 @@ class _HomeViewState extends State<HomeView> {
                   });
                 }
               },
-              label: const Text('Liveness Detection System')),
-        ],
-      )),
+              label: const Text('Liveness Detection System'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

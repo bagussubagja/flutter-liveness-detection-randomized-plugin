@@ -1,5 +1,11 @@
 # 1.1.0 🚀
 
+- ⏱️ **NEW**: Automatic cooldown feature after 3 failed verification attempts
+- 🔒 **NEW**: 10-minute waiting period with persistent countdown (survives app restarts)
+- 🎯 **NEW**: Countdown only decreases when app is active (pauses when app is backgrounded)
+- 📱 **NEW**: Cooldown screen with real-time countdown display
+- 🛠️ **NEW**: `enableCooldownOnFailure` parameter to control cooldown feature
+- 📦 **NEW**: Added `shared_preferences` dependency for cooldown persistence
 - Update compile sdk and Gradle version for example & change deprecated .withOpacity(0.2) to .withAlpha(51) (Thanks to https://github.com/erikwibowo)
 
 
