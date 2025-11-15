@@ -34,5 +34,8 @@ class LivenessDetectionConfig {
     this.shuffleListWithSmileLast = true,
     this.showCurrentStep = false,
     this.isDarkMode = true,
-  });
+  }) : assert(
+         !useCustomizedLabel || customizedLabel != null,
+         'customizedLabel must not be null when useCustomizedLabel is true',
+       );
 }

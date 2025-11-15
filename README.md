@@ -11,16 +11,14 @@ A Flutter plugin for liveness detection with randomized challenge response metho
 
 https://github.com/user-attachments/assets/f7266dc9-c4a2-4fba-8684-0ead2f678180
 
-## Update 1.2.0
-- 🔄 **BREAKING CHANGE**: All parameters consolidated into `LivenessDetectionConfig`
-- 🎯 Simplified API - only requires `context` and `config` parameters
-- 📚 Updated documentation with migration guide
-- 🛠️ Cleaner, more maintainable code structure
-
 ## Update 1.1.0
 - ⏱️ Added automatic cooldown feature after 3 failed verification attempts
 - 🔒 10-minute waiting period with persistent countdown (survives app restarts)
 - 🎯 Countdown only decreases when app is active (pauses when app is backgrounded)
+- 🔄 **API Refactor**: All parameters consolidated into `LivenessDetectionConfig`
+- 🎯 Simplified API - only requires `context` and `config` parameters
+- 🛠️ Fixed customizedLabel logic for proper skip challenge behavior
+- ✅ Added validation: `customizedLabel` must not be null when `useCustomizedLabel` is true
 
 ## Update 1.0.6
 ![Slide 16_9 - 9](https://github.com/user-attachments/assets/3a9b187a-ccfd-4542-a8d9-88b7ef7903a9)
@@ -46,7 +44,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_liveness_detection_randomized_plugin: ^1.2.0
+  flutter_liveness_detection_randomized_plugin: ^1.1.0
 ```
 
 ## Usage 🚀
@@ -74,12 +72,12 @@ final String? response = await FlutterLivenessDetectionRandomizedPlugin.instance
     // Customization
     useCustomizedLabel: false, // Enable custom labels
     customizedLabel: LivenessDetectionLabelModel(
-      blink: '', // Empty string to skip challenge
-      lookDown: '',
-      lookLeft: '',
-      lookRight: '',
-      lookUp: 'Tengok Atas', // Custom label
-      smile: null, // null for default label
+      blink: '', // Empty string = skip challenge
+      lookDown: '', // Skip this challenge
+      lookLeft: null, // null = use default "Look LEFT"
+      lookRight: 'Turn Right', // Custom label
+      lookUp: 'Look Up Please', // Custom label
+      smile: null, // null = use default "Smile"
     ),
     
     // Security Features
@@ -130,6 +128,7 @@ You can customize challenge labels or skip certain challenges:
 - Use empty string `''` to skip a challenge
 - Use `null` to keep default label
 - Provide custom string for personalized labels
+- When `useCustomizedLabel: true`, `customizedLabel` must not be null
 
 ## Complete Example 💡
 

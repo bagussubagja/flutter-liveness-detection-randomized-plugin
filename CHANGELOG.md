@@ -1,20 +1,33 @@
-# 1.2.0 🚀
+# 1.1.0 🚀
 
 ## BREAKING CHANGES ⚠️
 - 🔄 **API Refactor**: All parameters now consolidated into `LivenessDetectionConfig`
 - 📦 **Simplified API**: `livenessDetection()` method now only requires `context` and `config`
 - 🛠️ **Migration Required**: Update your implementation to use the new unified config approach
 
-### What Changed:
+## New Features ✨
+- ⏱️ **NEW**: Automatic cooldown feature after 3 failed verification attempts
+- 🔒 **NEW**: 10-minute waiting period with persistent countdown (survives app restarts)
+- 🎯 **NEW**: Countdown only decreases when app is active (pauses when app is backgrounded)
+- 📱 **NEW**: Cooldown screen with real-time countdown display
+- 🛠️ **NEW**: `enableCooldownOnFailure` parameter to control cooldown feature
+- 📦 **NEW**: Added `shared_preferences` dependency for cooldown persistence
+
+## Bug Fixes 🐛
+- 🛠️ **Fixed customizedLabel logic**: Corrected skip challenge behavior (empty string now properly skips)
+- ✅ **Added validation**: `customizedLabel` must not be null when `useCustomizedLabel` is true
+- 🔄 **Improved consistency**: Unified steps handling logic across the codebase
+- 📚 **Updated documentation**: Clearer examples for customizedLabel usage
+
+## Other Changes
 - ✅ Moved `isEnableSnackBar` to config
 - ✅ Moved `shuffleListWithSmileLast` to config  
 - ✅ Moved `showCurrentStep` to config
 - ✅ Moved `isDarkMode` to config
-- 📚 Updated documentation with migration guide
-- 🎯 Cleaner, more maintainable API structure
+- Update compile sdk and Gradle version for example & change deprecated .withOpacity(0.2) to .withAlpha(51) (Thanks to https://github.com/erikwibowo)
 
 ### Migration Guide:
-**Before (v1.1.x):**
+**Before (v1.0.x):**
 ```dart
 await plugin.livenessDetection(
   context: context,
@@ -26,7 +39,7 @@ await plugin.livenessDetection(
 );
 ```
 
-**After (v1.2.0+):**
+**After (v1.1.0+):**
 ```dart
 await plugin.livenessDetection(
   context: context,
@@ -39,16 +52,6 @@ await plugin.livenessDetection(
   ),
 );
 ```
-
-# 1.1.0 🚀
-
-- ⏱️ **NEW**: Automatic cooldown feature after 3 failed verification attempts
-- 🔒 **NEW**: 10-minute waiting period with persistent countdown (survives app restarts)
-- 🎯 **NEW**: Countdown only decreases when app is active (pauses when app is backgrounded)
-- 📱 **NEW**: Cooldown screen with real-time countdown display
-- 🛠️ **NEW**: `enableCooldownOnFailure` parameter to control cooldown feature
-- 📦 **NEW**: Added `shared_preferences` dependency for cooldown persistence
-- Update compile sdk and Gradle version for example & change deprecated .withOpacity(0.2) to .withAlpha(51) (Thanks to https://github.com/erikwibowo)
 
 
 ## 1.0.8 🚀
