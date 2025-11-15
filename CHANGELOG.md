@@ -1,3 +1,8 @@
+# 1.1.0 🚀
+
+- Update compile sdk and Gradle version for example & change deprecated .withOpacity(0.2) to .withAlpha(51) (Thanks to https://github.com/erikwibowo)
+
+
 ## 1.0.8 🚀
 
 - 📦 Add packagingOptions with useLegacyPackaging for Android compatibility
