@@ -6,6 +6,12 @@ A Flutter plugin for liveness detection with randomized challenge response metho
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/50b64954ad654b65b0424d266399b026)](https://app.codacy.com/gh/bagussubagja/flutter-liveness-detection-randomized-plugin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
+## Author
+
+Crafted with love by **[Bagus Subagja](https://www.linkedin.com/in/bagussubagja/)** ❤️
+
+Feel free to fork and modify this package to suit your needs - that's much more enjoyable than stealing or claiming my code 😊
+
 ## Preview 🪟
 ![Slide 16_9 - 1](https://github.com/user-attachments/assets/55e59d51-e0da-4562-879e-ae50adaced33)
 
@@ -184,6 +190,98 @@ Add camera usage description to `ios/Runner/Info.plist`:
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>Camera access is required for liveness detection</string>
+```
+
+## Testing Scenarios 🧪
+
+The example app includes 8 comprehensive liveness scenarios to test all features:
+
+### Scenario 1: Default Configuration
+```dart
+LivenessDetectionConfig(
+  shuffleListWithSmileLast: true,
+  startWithInfoScreen: true,
+  // Standard settings
+)
+```
+
+### Scenario 2: Random Shuffle
+```dart
+LivenessDetectionConfig(
+  shuffleListWithSmileLast: false,
+  durationLivenessVerify: 30,
+  startWithInfoScreen: false,
+)
+```
+
+### Scenario 3: Dark Mode + High Resolution
+```dart
+LivenessDetectionConfig(
+  isDarkMode: true,
+  cameraResolution: ResolutionPreset.high,
+  durationLivenessVerify: 60,
+)
+```
+
+### Scenario 4: Custom Indonesian Labels
+```dart
+LivenessDetectionConfig(
+  useCustomizedLabel: true,
+  customizedLabel: LivenessDetectionLabelModel(
+    blink: 'Kedip 2-3 Kali',
+    lookUp: 'Lihat ke Atas',
+    smile: 'Tersenyum Lebar',
+  ),
+)
+```
+
+### Scenario 5: Skip Steps (Minimal Challenges)
+```dart
+LivenessDetectionConfig(
+  useCustomizedLabel: true,
+  customizedLabel: LivenessDetectionLabelModel(
+    blink: 'Blink Eyes',
+    lookDown: '', // Skip
+    lookLeft: '', // Skip  
+    lookRight: '', // Skip
+    lookUp: 'Look Up Please',
+    smile: 'Smile Wide',
+  ),
+)
+```
+
+### Scenario 6: Timer + Cooldown Features
+```dart
+LivenessDetectionConfig(
+  showDurationUiText: true,
+  enableCooldownOnFailure: true,
+  maxFailedAttempts: 2,
+  cooldownMinutes: 5,
+)
+```
+
+### Scenario 7: Minimal Features
+```dart
+LivenessDetectionConfig(
+  isEnableMaxBrightness: false,
+  isEnableSnackBar: false,
+  showCurrentStep: false,
+)
+```
+
+### Scenario 8: All Features Enabled
+```dart
+LivenessDetectionConfig(
+  isDarkMode: true,
+  cameraResolution: ResolutionPreset.high,
+  showDurationUiText: true,
+  enableCooldownOnFailure: true,
+  useCustomizedLabel: true,
+  customizedLabel: LivenessDetectionLabelModel(
+    blink: '👁️ Kedipkan Mata',
+    smile: '😊 Senyum Manis',
+  ),
+)
 ```
 
 ## Migration Guide 🔄

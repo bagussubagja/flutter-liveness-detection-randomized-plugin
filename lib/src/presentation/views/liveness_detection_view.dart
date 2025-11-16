@@ -32,8 +32,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   late bool _isInfoStepCompleted;
   bool _isProcessingStep = false;
   bool _faceDetectedState = false;
-  static List<LivenessDetectionStepItem> _cachedShuffledSteps = [];
-  static bool _isShuffled = false;
+  List<LivenessDetectionStepItem> _shuffledSteps = [];
 
   // Brightness Screen
   Future<void> setApplicationBrightness(double brightness) async {
@@ -128,73 +127,69 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   List<LivenessDetectionStepItem> customizedLivenessLabel(
     LivenessDetectionLabelModel label,
   ) {
-    if (_cachedShuffledSteps.isEmpty) {
-      List<LivenessDetectionStepItem> customizedSteps = [];
+    List<LivenessDetectionStepItem> customizedSteps = [];
 
-      // Add blink step if not explicitly skipped (empty string skips)
-      if (label.blink != "") {
-        customizedSteps.add(
-          LivenessDetectionStepItem(
-            step: LivenessDetectionStep.blink,
-            title: label.blink ?? "Blink 2-3 Times",
-          ),
-        );
-      }
-
-      // Add lookRight step if not explicitly skipped
-      if (label.lookRight != "") {
-        customizedSteps.add(
-          LivenessDetectionStepItem(
-            step: LivenessDetectionStep.lookRight,
-            title: label.lookRight ?? "Look RIGHT",
-          ),
-        );
-      }
-
-      // Add lookLeft step if not explicitly skipped
-      if (label.lookLeft != "") {
-        customizedSteps.add(
-          LivenessDetectionStepItem(
-            step: LivenessDetectionStep.lookLeft,
-            title: label.lookLeft ?? "Look LEFT",
-          ),
-        );
-      }
-
-      // Add lookUp step if not explicitly skipped
-      if (label.lookUp != "") {
-        customizedSteps.add(
-          LivenessDetectionStepItem(
-            step: LivenessDetectionStep.lookUp,
-            title: label.lookUp ?? "Look UP",
-          ),
-        );
-      }
-
-      // Add lookDown step if not explicitly skipped
-      if (label.lookDown != "") {
-        customizedSteps.add(
-          LivenessDetectionStepItem(
-            step: LivenessDetectionStep.lookDown,
-            title: label.lookDown ?? "Look DOWN",
-          ),
-        );
-      }
-
-      // Add smile step if not explicitly skipped
-      if (label.smile != "") {
-        customizedSteps.add(
-          LivenessDetectionStepItem(
-            step: LivenessDetectionStep.smile,
-            title: label.smile ?? "Smile",
-          ),
-        );
-      }
-      
-      _cachedShuffledSteps = customizedSteps;
+    // Add blink step if not explicitly skipped (empty string skips)
+    if (label.blink != "") {
+      customizedSteps.add(
+        LivenessDetectionStepItem(
+          step: LivenessDetectionStep.blink,
+          title: label.blink ?? "Blink 2-3 Times",
+        ),
+      );
     }
 
-    return _cachedShuffledSteps;
+    // Add lookRight step if not explicitly skipped
+    if (label.lookRight != "") {
+      customizedSteps.add(
+        LivenessDetectionStepItem(
+          step: LivenessDetectionStep.lookRight,
+          title: label.lookRight ?? "Look RIGHT",
+        ),
+      );
+    }
+
+    // Add lookLeft step if not explicitly skipped
+    if (label.lookLeft != "") {
+      customizedSteps.add(
+        LivenessDetectionStepItem(
+          step: LivenessDetectionStep.lookLeft,
+          title: label.lookLeft ?? "Look LEFT",
+        ),
+      );
+    }
+
+    // Add lookUp step if not explicitly skipped
+    if (label.lookUp != "") {
+      customizedSteps.add(
+        LivenessDetectionStepItem(
+          step: LivenessDetectionStep.lookUp,
+          title: label.lookUp ?? "Look UP",
+        ),
+      );
+    }
+
+    // Add lookDown step if not explicitly skipped
+    if (label.lookDown != "") {
+      customizedSteps.add(
+        LivenessDetectionStepItem(
+          step: LivenessDetectionStep.lookDown,
+          title: label.lookDown ?? "Look DOWN",
+        ),
+      );
+    }
+
+    // Add smile step if not explicitly skipped
+    if (label.smile != "") {
+      customizedSteps.add(
+        LivenessDetectionStepItem(
+          step: LivenessDetectionStep.smile,
+          title: label.smile ?? "Smile",
+        ),
+      );
+    }
+
+    return customizedSteps;
   }
 
   @override
@@ -226,18 +221,8 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   void _preInitCallBack() {
     _isInfoStepCompleted = !widget.config.startWithInfoScreen;
     
-    // Get the appropriate steps list
-    List<LivenessDetectionStepItem> stepsToUse = _getStepsToUse();
-    
-    if (!_isShuffled) {
-      shuffleListLivenessChallenge(
-        list: stepsToUse,
-        isSmileLast: widget.config.useCustomizedLabel
-            ? false
-            : widget.config.shuffleListWithSmileLast,
-      );
-      _isShuffled = true;
-    }
+    // Initialize and shuffle steps fresh each time
+    _initializeShuffledSteps();
     
     if (widget.config.isEnableMaxBrightness) {
       setApplicationBrightness(1.0);
@@ -269,7 +254,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
       _startLiveFeed();
     }
 
-    // Shuffle already handled in _preInitCallBack
+    // Steps are shuffled fresh in _preInitCallBack
   }
 
   void _startLiveFeed() async {
@@ -493,12 +478,29 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     if (mounted) setState(() => _isProcessingStep = false);
   }
 
-  /// Helper method to get the appropriate steps list based on configuration
-  List<LivenessDetectionStepItem> _getStepsToUse() {
+  /// Initialize and shuffle steps fresh each time
+  void _initializeShuffledSteps() {
+    List<LivenessDetectionStepItem> baseSteps;
+    
     if (widget.config.useCustomizedLabel && widget.config.customizedLabel != null) {
-      return customizedLivenessLabel(widget.config.customizedLabel!);
+      baseSteps = customizedLivenessLabel(widget.config.customizedLabel!);
+    } else {
+      baseSteps = List.from(stepLiveness); // Create a copy to avoid modifying the original
     }
-    return stepLiveness;
+    
+    shuffleListLivenessChallenge(
+      list: baseSteps,
+      isSmileLast: widget.config.useCustomizedLabel
+          ? false
+          : widget.config.shuffleListWithSmileLast,
+    );
+    
+    _shuffledSteps = baseSteps;
+  }
+
+  /// Helper method to get the shuffled steps list
+  List<LivenessDetectionStepItem> _getStepsToUse() {
+    return _shuffledSteps;
   }
 
   @override
