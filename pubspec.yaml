@@ -1,6 +1,6 @@
 name: flutter_liveness_detection_randomized_plugin
 description: "A Flutter plugin for liveness detection with randomized challenge response method"
-version: 1.2.0
+version: 1.1.0
 homepage: "https://bagussubagja.vercel.app"
 repository: "https://github.com/bagussubagja/flutter-liveness-detection-randomized-plugin"
 
