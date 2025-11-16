@@ -1,23 +1,17 @@
 # 1.1.0 🚀
 
-## BREAKING CHANGES ⚠️
+## BREAKING CHANGES
 - 🔄 **API Refactor**: All parameters now consolidated into `LivenessDetectionConfig`
 - 📦 **Simplified API**: `livenessDetection()` method now only requires `context` and `config`
 - 🛠️ **Migration Required**: Update your implementation to use the new unified config approach
 
-## New Features ✨
-- ⏱️ **NEW**: Automatic cooldown feature after 3 failed verification attempts
-- 🔒 **NEW**: 10-minute waiting period with persistent countdown (survives app restarts)
-- 🎯 **NEW**: Countdown only decreases when app is active (pauses when app is backgrounded)
-- 📱 **NEW**: Cooldown screen with real-time countdown display
-- 🛠️ **NEW**: `enableCooldownOnFailure` parameter to control cooldown feature
-- 📦 **NEW**: Added `shared_preferences` dependency for cooldown persistence
+## New Features
+- ⏱️ **NEW**: Automatic cooldown feature after 3 failed verification attempts. 10-minute waiting period with persistent countdown (survives app restarts). `enableCooldownOnFailure` parameter to control cooldown feature
 
-## Bug Fixes 🐛
+## Bug Fixes
 - 🛠️ **Fixed customizedLabel logic**: Corrected skip challenge behavior (empty string now properly skips)
 - ✅ **Added validation**: `customizedLabel` must not be null when `useCustomizedLabel` is true
 - 🔄 **Improved consistency**: Unified steps handling logic across the codebase
-- 📚 **Updated documentation**: Clearer examples for customizedLabel usage
 
 ## Other Changes
 - ✅ Moved `isEnableSnackBar` to config
