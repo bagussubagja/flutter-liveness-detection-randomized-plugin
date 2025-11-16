@@ -32,7 +32,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   late bool _isInfoStepCompleted;
   bool _isProcessingStep = false;
   bool _faceDetectedState = false;
-  static late List<LivenessDetectionStepItem> _cachedShuffledSteps;
+  static List<LivenessDetectionStepItem> _cachedShuffledSteps = [];
   static bool _isShuffled = false;
 
   // Brightness Screen
@@ -64,20 +64,13 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     required bool isSmileLast,
   }) {
     if (isSmileLast) {
-      int? blinkIndex = list.indexWhere(
-        (item) => item.step == LivenessDetectionStep.blink,
-      );
       int? smileIndex = list.indexWhere(
         (item) => item.step == LivenessDetectionStep.smile,
       );
 
-      if (blinkIndex != -1 && smileIndex != -1) {
-        LivenessDetectionStepItem blinkItem = list.removeAt(blinkIndex);
-        LivenessDetectionStepItem smileItem = list.removeAt(
-          smileIndex > blinkIndex ? smileIndex - 1 : smileIndex,
-        );
+      if (smileIndex != -1) {
+        LivenessDetectionStepItem smileItem = list.removeAt(smileIndex);
         list.shuffle(Random());
-        list.insert(list.length - 1, blinkItem);
         list.add(smileItem);
       } else {
         list.shuffle(Random());
@@ -135,7 +128,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   List<LivenessDetectionStepItem> customizedLivenessLabel(
     LivenessDetectionLabelModel label,
   ) {
-    if (!_isShuffled) {
+    if (_cachedShuffledSteps.isEmpty) {
       List<LivenessDetectionStepItem> customizedSteps = [];
 
       // Add blink step if not explicitly skipped (empty string skips)
@@ -199,7 +192,6 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
       }
       
       _cachedShuffledSteps = customizedSteps;
-      _isShuffled = true;
     }
 
     return _cachedShuffledSteps;
@@ -237,12 +229,15 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     // Get the appropriate steps list
     List<LivenessDetectionStepItem> stepsToUse = _getStepsToUse();
     
-    shuffleListLivenessChallenge(
-      list: stepsToUse,
-      isSmileLast: widget.config.useCustomizedLabel
-          ? false
-          : widget.config.shuffleListWithSmileLast,
-    );
+    if (!_isShuffled) {
+      shuffleListLivenessChallenge(
+        list: stepsToUse,
+        isSmileLast: widget.config.useCustomizedLabel
+            ? false
+            : widget.config.shuffleListWithSmileLast,
+      );
+      _isShuffled = true;
+    }
     
     if (widget.config.isEnableMaxBrightness) {
       setApplicationBrightness(1.0);
@@ -274,12 +269,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
       _startLiveFeed();
     }
 
-    // Get the appropriate steps list and shuffle
-    List<LivenessDetectionStepItem> stepsToUse = _getStepsToUse();
-    shuffleListLivenessChallenge(
-      list: stepsToUse,
-      isSmileLast: widget.config.shuffleListWithSmileLast,
-    );
+    // Shuffle already handled in _preInitCallBack
   }
 
   void _startLiveFeed() async {
