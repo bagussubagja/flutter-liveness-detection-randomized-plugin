@@ -13,22 +13,45 @@ class FlutterLivenessDetectionRandomizedPlugin {
   Future<String?> livenessDetection({
     required BuildContext context,
     required LivenessDetectionConfig config,
-    required bool isEnableSnackBar,
-    required bool shuffleListWithSmileLast,
-    required bool showCurrentStep,
-    required bool isDarkMode,
   }) async {
+    if (config.enableCooldownOnFailure) {
+      LivenessCooldownService.instance.configure(
+        maxFailedAttempts: config.maxFailedAttempts,
+        cooldownMinutes: config.cooldownMinutes,
+      );
+      final cooldownState = await LivenessCooldownService.instance.getCooldownState();
+      if (cooldownState.isInCooldown && context.mounted) {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => LivenessCooldownWidget(
+              cooldownState: cooldownState,
+              isDarkMode: config.isDarkMode,
+              maxFailedAttempts: config.maxFailedAttempts,
+            ),
+          ),
+        );
+        return null;
+      }
+    }
+
+    if (!context.mounted) return null;
+    
     final String? capturedFacePath = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => LivenessDetectionView(
           config: config,
-          isEnableSnackBar: isEnableSnackBar,
-          shuffleListWithSmileLast: shuffleListWithSmileLast,
-          showCurrentStep: showCurrentStep,
-          isDarkMode: isDarkMode,
         ),
       ),
     );
+
+    if (config.enableCooldownOnFailure) {
+      if (capturedFacePath != null) {
+        await LivenessCooldownService.instance.recordSuccessfulAttempt();
+      } else {
+        await LivenessCooldownService.instance.recordFailedAttempt();
+      }
+    }
+
     return capturedFacePath;
   }
 

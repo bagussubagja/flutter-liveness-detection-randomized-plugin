@@ -9,6 +9,9 @@ export 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 export 'package:flutter_liveness_detection_randomized_plugin/src/models/liveness_detection_step_item.dart';
 export 'package:flutter_liveness_detection_randomized_plugin/src/models/liveness_detection_config.dart';
 export 'package:flutter_liveness_detection_randomized_plugin/src/models/liveness_detection_threshold.dart';
+export 'package:flutter_liveness_detection_randomized_plugin/src/models/liveness_detection_cooldown.dart';
+export 'package:flutter_liveness_detection_randomized_plugin/src/core/services/liveness_cooldown_service.dart';
+export 'package:flutter_liveness_detection_randomized_plugin/src/presentation/widgets/liveness_cooldown_widget.dart';
 
 export 'src/core/index.dart';
 export './flutter_liveness_detection_randomized_plugin.dart';

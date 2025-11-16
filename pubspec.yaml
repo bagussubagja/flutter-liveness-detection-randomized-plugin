@@ -1,6 +1,6 @@
 name: flutter_liveness_detection_randomized_plugin
 description: "A Flutter plugin for liveness detection with randomized challenge response method"
-version: 1.1.0
+version: 1.2.0
 homepage: "https://bagussubagja.vercel.app"
 repository: "https://github.com/bagussubagja/flutter-liveness-detection-randomized-plugin"
 
@@ -20,6 +20,7 @@ dependencies:
   lottie: ^2.4.0
   collection: ^1.18.0
   screen_brightness: ^2.1.2
+  shared_preferences: ^2.2.2
 
 dependency_overrides:
   camera_android_camerax: 0.6.10+1
