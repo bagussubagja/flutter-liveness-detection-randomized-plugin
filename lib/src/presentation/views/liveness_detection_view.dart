@@ -702,17 +702,34 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
             as LivenessThresholdMouthOpen?;
 
     // Google ML Kit doesn't have direct mouth open probability
-    // We can use a combination of smile probability being low and face landmarks
-    // For now, we'll use a heuristic: if smiling probability is very low (mouth not smiling)
-    // but face is detected properly, we consider it as mouth open
-    // This is a simplified approach - for better accuracy, you might need custom ML model
+    // We use face landmarks to calculate mouth opening
+    // Get mouth landmarks - using correct enum values
+    final mouthBottom = face.landmarks[FaceLandmarkType.bottomMouth];
+    final mouthLeft = face.landmarks[FaceLandmarkType.leftMouth];
+    final mouthRight = face.landmarks[FaceLandmarkType.rightMouth];
     
-    // Alternative approach: Check if smile probability is below threshold
-    // indicating mouth is open (not smiling)
-    if ((face.smilingProbability ?? 1.0) <
-        (1.0 - (mouthOpenThreshold?.probability ?? 0.75))) {
-      _startProcessing();
-      await _completeStep(step: step);
+    if (mouthBottom != null && mouthLeft != null && mouthRight != null) {
+      // Calculate mouth width (horizontal distance)
+      final mouthWidth = (mouthRight.position.x - mouthLeft.position.x).abs();
+      
+      // Calculate vertical mouth opening using bottom lip position
+      // We compare it with the center point between left and right mouth corners
+      final mouthCenterY = (mouthLeft.position.y + mouthRight.position.y) / 2;
+      final mouthHeight = (mouthBottom.position.y - mouthCenterY).abs();
+      
+      // Calculate mouth aspect ratio (height/width)
+      // When mouth is open, this ratio increases
+      final mouthAspectRatio = mouthWidth > 0 ? mouthHeight / mouthWidth : 0.0;
+      
+      // Threshold for mouth open detection
+      // Default threshold is 0.75, we use it as a multiplier
+      // Typical mouth aspect ratio when open is around 0.5-0.8
+      final threshold = (mouthOpenThreshold?.probability ?? 0.75) * 0.6;
+      
+      if (mouthAspectRatio > threshold) {
+        _startProcessing();
+        await _completeStep(step: step);
+      }
     }
   }
 }
