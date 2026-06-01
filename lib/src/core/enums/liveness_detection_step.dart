@@ -4,5 +4,6 @@ enum LivenessDetectionStep {
   lookLeft,
   lookUp,
   lookDown,
-  smile
+  smile,
+  mouthOpen
 }

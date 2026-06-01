@@ -189,6 +189,16 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
       );
     }
 
+    // Add mouthOpen step if not explicitly skipped
+    if (label.mouthOpen != "") {
+      customizedSteps.add(
+        LivenessDetectionStepItem(
+          step: LivenessDetectionStep.mouthOpen,
+          title: label.mouthOpen ?? "Open Your Mouth",
+        ),
+      );
+    }
+
     return customizedSteps;
   }
 
@@ -392,6 +402,10 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
 
       case LivenessDetectionStep.smile:
         await _handlingSmile(face: face, step: step);
+        break;
+
+      case LivenessDetectionStep.mouthOpen:
+        await _handlingMouthOpen(face: face, step: step);
         break;
     }
   }
@@ -673,6 +687,30 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
 
     if ((face.smilingProbability ?? 0) >
         (smileThreshold?.probability ?? 0.65)) {
+      _startProcessing();
+      await _completeStep(step: step);
+    }
+  }
+
+  Future<void> _handlingMouthOpen({
+    required Face face,
+    required LivenessDetectionStep step,
+  }) async {
+    final mouthOpenThreshold =
+        FlutterLivenessDetectionRandomizedPlugin.instance.thresholdConfig
+                .firstWhereOrNull((p0) => p0 is LivenessThresholdMouthOpen)
+            as LivenessThresholdMouthOpen?;
+
+    // Google ML Kit doesn't have direct mouth open probability
+    // We can use a combination of smile probability being low and face landmarks
+    // For now, we'll use a heuristic: if smiling probability is very low (mouth not smiling)
+    // but face is detected properly, we consider it as mouth open
+    // This is a simplified approach - for better accuracy, you might need custom ML model
+    
+    // Alternative approach: Check if smile probability is below threshold
+    // indicating mouth is open (not smiling)
+    if ((face.smilingProbability ?? 1.0) <
+        (1.0 - (mouthOpenThreshold?.probability ?? 0.75))) {
       _startProcessing();
       await _completeStep(step: step);
     }

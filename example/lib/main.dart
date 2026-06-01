@@ -17,7 +17,7 @@ class _HomeViewState extends State<HomeView> {
   List<String?> capturedImages = [];
   String? imgPath;
   int livenessScenario = 0;
-  final int totalScenarios = 8;
+  final int totalScenarios = 9;
 
   @override
   void initState() {
@@ -110,6 +110,8 @@ class _HomeViewState extends State<HomeView> {
         return 'Max brightness off + No snackbar + Hide steps';
       case 7:
         return 'All features: Custom + Timer + Cooldown + Dark';
+      case 8:
+        return 'Mouth Open: Test new mouth open detection feature';
       default:
         return '';
     }
@@ -263,6 +265,30 @@ class _HomeViewState extends State<HomeView> {
             lookRight: '➡️ Lihat Kanan',
             lookUp: '⬆️ Lihat Atas',
             smile: '😊 Senyum Manis',
+          ),
+        );
+      case 8: // Mouth open test
+        return LivenessDetectionConfig(
+          cameraResolution: ResolutionPreset.medium,
+          imageQuality: 90,
+          isEnableMaxBrightness: true,
+          durationLivenessVerify: 45,
+          showDurationUiText: false,
+          startWithInfoScreen: true,
+          useCustomizedLabel: true,
+          enableCooldownOnFailure: false,
+          isEnableSnackBar: true,
+          shuffleListWithSmileLast: false,
+          isDarkMode: false,
+          showCurrentStep: true,
+          customizedLabel: LivenessDetectionLabelModel(
+            blink: 'Blink Your Eyes',
+            lookDown: '', // Skip
+            lookLeft: '', // Skip
+            lookRight: '', // Skip
+            lookUp: '', // Skip
+            smile: 'Smile Wide',
+            mouthOpen: 'Open Your Mouth',
           ),
         );
       default:

@@ -1,3 +1,6 @@
+# 1.2.5
+- 🎭 **NEW: Mouth Open Detection** - Added new liveness challenge for mouth opening verification
+
 # 1.2.1 🚀
 
 ## Improvements

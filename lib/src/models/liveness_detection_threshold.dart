@@ -209,3 +209,65 @@ class LivenessThresholdHead extends LivenessDetectionThreshold{
     );
   }
 }
+
+class LivenessThresholdMouthOpen extends LivenessDetectionThreshold {
+  final double probability;
+
+  LivenessThresholdMouthOpen({
+    this.probability = 0.75,
+  }) : super() {
+    assert(
+      probability < 1.0 || probability > 0.0,
+      "Mouth Open Probability has to be between 1.0 and 0.0",
+    );
+  }
+
+  LivenessThresholdMouthOpen copyWith({
+    double? probability,
+  }) {
+    return LivenessThresholdMouthOpen(
+      probability: probability ?? this.probability,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'probability': probability});
+
+    return result;
+  }
+
+  @override
+  factory LivenessThresholdMouthOpen.fromMap(Map<String, dynamic> map) {
+    return LivenessThresholdMouthOpen(
+      probability: map['probability']?.toDouble() ?? 0.0,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory LivenessThresholdMouthOpen.fromJson(String source) =>
+      LivenessThresholdMouthOpen.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'LivenessThresholdMouthOpen(probability: $probability)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is LivenessThresholdMouthOpen && other.probability == probability;
+  }
+
+  @override
+  int get hashCode => probability.hashCode;
+
+  @override
+  LivenessThresholdMouthOpen fromDict(Map<String, dynamic> map) {
+    return LivenessThresholdMouthOpen(
+      probability: map['probability']?.toDouble() ?? 0.0,
+    );
+  }
+}

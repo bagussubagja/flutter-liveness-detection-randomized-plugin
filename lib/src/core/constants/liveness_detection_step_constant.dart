@@ -25,4 +25,8 @@ List<LivenessDetectionStepItem> stepLiveness = [
     step: LivenessDetectionStep.smile,
     title: "Smile",
   ),
+  LivenessDetectionStepItem(
+    step: LivenessDetectionStep.mouthOpen,
+    title: "Open Your Mouth",
+  ),
 ];

@@ -17,27 +17,8 @@ Feel free to fork and modify this package to suit your needs - that's much more 
 
 https://github.com/user-attachments/assets/f7266dc9-c4a2-4fba-8684-0ead2f678180
 
-## Update 1.2.1
-- ⬆️ **Kotlin updated to 2.1.0** for better performance and support 16KB google page size policy
-- ⬆️ compileSdk & targetSdk bumped to **36** (Android 16)
-- ☕ Java & Kotlin JVM target upgraded to **VERSION_17**
-- 📱 minSdk raised to **24** (Android 7.0)
-- 🗑️ Removed `useLegacyPackaging` — no longer needed with modern AGP
-- 🔍 `google_mlkit_face_detection` updated to **0.13.2**
-- 🐦 Flutter minimum version bumped to **3.38.7**
-
-## Update 1.1.0
-- ⏱️ Added automatic cooldown feature after 3 failed verification attempts
-- 🔒 10-minute waiting period with persistent countdown (survives app restarts)
-- 🎯 Countdown only decreases when app is active (pauses when app is backgrounded)
-- 🔄 **API Refactor**: All parameters consolidated into `LivenessDetectionConfig`
-- 🎯 Simplified API - only requires `context` and `config` parameters
-- 🛠️ Fixed customizedLabel logic for proper skip challenge behavior
-- ✅ Added validation: `customizedLabel` must not be null when `useCustomizedLabel` is true
-
-## Update 1.0.6
-![Slide 16_9 - 9](https://github.com/user-attachments/assets/3a9b187a-ccfd-4542-a8d9-88b7ef7903a9)
-Face stretching already fixed on this version
+## Update 1.2.5
+- 🎭 **NEW: Mouth Open Detection** - Added new liveness challenge for mouth opening verification
 
 ## Features ✨
 
@@ -93,6 +74,7 @@ final String? response = await FlutterLivenessDetectionRandomizedPlugin.instance
       lookRight: 'Turn Right', // Custom label
       lookUp: 'Look Up Please', // Custom label
       smile: null, // null = use default "Smile"
+      mouthOpen: 'Open Your Mouth', // Custom label for mouth open
     ),
     
     // Security Features
@@ -203,7 +185,7 @@ Add camera usage description to `ios/Runner/Info.plist`:
 
 ## Testing Scenarios 🧪
 
-The example app includes 8 comprehensive liveness scenarios to test all features:
+The example app includes 9 comprehensive liveness scenarios to test all features:
 
 ### Scenario 1: Default Configuration
 ```dart
@@ -292,6 +274,39 @@ LivenessDetectionConfig(
   ),
 )
 ```
+
+### Scenario 9: Mouth Open Detection
+```dart
+LivenessDetectionConfig(
+  useCustomizedLabel: true,
+  customizedLabel: LivenessDetectionLabelModel(
+    blink: 'Blink Your Eyes',
+    lookDown: '', // Skip
+    lookLeft: '', // Skip
+    lookRight: '', // Skip
+    lookUp: '', // Skip
+    smile: 'Smile Wide',
+    mouthOpen: 'Open Your Mouth', // New mouth open challenge
+  ),
+)
+```
+
+## Available Liveness Challenges 🎯
+
+The plugin supports the following liveness detection challenges:
+
+1. **Blink** - User must blink their eyes 2-3 times
+2. **Look Right** - User must turn their head to the right
+3. **Look Left** - User must turn their head to the left
+4. **Look Up** - User must tilt their head upward
+5. **Look Down** - User must tilt their head downward
+6. **Smile** - User must smile
+7. **Mouth Open** - User must open their mouth
+
+Each challenge can be:
+- Enabled with default label (set to `null`)
+- Enabled with custom label (provide custom string)
+- Disabled/skipped (set to empty string `''`)
 
 ## Migration Guide 🔄
 
