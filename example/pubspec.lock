@@ -212,20 +212,18 @@ packages:
   google_mlkit_commons:
     dependency: transitive
     description:
-      path: "packages/google_mlkit_commons"
-      ref: b506f340c31d862cc72b826378b2ee93d922239a
-      resolved-ref: b506f340c31d862cc72b826378b2ee93d922239a
-      url: "https://github.com/bagussubagja/google_ml_kit_flutter.git"
-    source: git
+      name: google_mlkit_commons
+      sha256: c7fc384bdb66c3b83e24e3a41818e61d7a378d900f65f5e775344fbca95a0917
+      url: "https://pub.dev"
+    source: hosted
     version: "0.12.0"
   google_mlkit_face_detection:
     dependency: transitive
     description:
-      path: "packages/google_mlkit_face_detection"
-      ref: b506f340c31d862cc72b826378b2ee93d922239a
-      resolved-ref: b506f340c31d862cc72b826378b2ee93d922239a
-      url: "https://github.com/bagussubagja/google_ml_kit_flutter.git"
-    source: git
+      name: google_mlkit_face_detection
+      sha256: "719735518c0a961072d1757a097af8fec458426accad0a58eae0763942a3f14c"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.14.0"
   hooks:
     dependency: transitive
