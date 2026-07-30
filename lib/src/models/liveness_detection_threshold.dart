@@ -37,7 +37,6 @@ class LivenessThresholdSmile extends LivenessDetectionThreshold {
     return result;
   }
 
-  @override
   factory LivenessThresholdSmile.fromMap(Map<String, dynamic> map) {
     return LivenessThresholdSmile(
       probability: map['probability']?.toDouble() ?? 0.0,
