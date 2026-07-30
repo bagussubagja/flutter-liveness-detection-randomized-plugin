@@ -35,6 +35,7 @@ flutter:
         pluginClass: FlutterLivenessDetectionRandomizedPlugin
       ios:
         pluginClass: FlutterLivenessDetectionRandomizedPlugin
+        sharedDarwinSource: true
 
   assets:
     - packages/flutter_liveness_detection_randomized_plugin/src/core/assets/face-id-anim.json
