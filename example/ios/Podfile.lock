@@ -1,7 +1,5 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_liveness_detection_randomized_plugin (0.0.1):
-    - Flutter
   - google_mlkit_commons (0.12.0):
     - Flutter
     - MLKitVision (~> 10.0.0)
@@ -58,7 +56,6 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_liveness_detection_randomized_plugin (from `.symlinks/plugins/flutter_liveness_detection_randomized_plugin/ios`)
   - google_mlkit_commons (from `.symlinks/plugins/google_mlkit_commons/ios`)
   - google_mlkit_face_detection (from `.symlinks/plugins/google_mlkit_face_detection/ios`)
 
@@ -79,8 +76,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_liveness_detection_randomized_plugin:
-    :path: ".symlinks/plugins/flutter_liveness_detection_randomized_plugin/ios"
   google_mlkit_commons:
     :path: ".symlinks/plugins/google_mlkit_commons/ios"
   google_mlkit_face_detection:
@@ -88,7 +83,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_liveness_detection_randomized_plugin: ec4de76289cfe57af778e5134d6268e9846ca450
   google_mlkit_commons: 75b2579ccf522fe01d42e689babda04c4510ba2f
   google_mlkit_face_detection: 9dc1acbfcec8a5f7920ec85beb90a0a79e52fd5d
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7

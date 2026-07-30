@@ -13,7 +13,7 @@ A Flutter plugin for liveness detection with randomized challenge response metho
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'flutter_liveness_detection_randomized_plugin/Sources/flutter_liveness_detection_randomized_plugin/**/*.swift'
   s.dependency 'Flutter'
   s.platform = :ios, '15.5'
 
@@ -25,5 +25,5 @@ A Flutter plugin for liveness detection with randomized challenge response metho
   # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
   # plugin's privacy impact, and then uncomment this line. For more information,
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
-  # s.resource_bundles = {'flutter_liveness_detection_randomized_plugin_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  s.resource_bundles = {'flutter_liveness_detection_randomized_plugin_privacy' => ['flutter_liveness_detection_randomized_plugin/Sources/flutter_liveness_detection_randomized_plugin/PrivacyInfo.xcprivacy']}
 end

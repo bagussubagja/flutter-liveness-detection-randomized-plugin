@@ -6,19 +6,22 @@ import PackageDescription
 let package = Package(
     name: "flutter_liveness_detection_randomized_plugin",
     platforms: [
-        .iOS(.v15)
+        .iOS("15.5")
     ],
     products: [
         .library(name: "flutter-liveness-detection-randomized-plugin", targets: ["flutter_liveness_detection_randomized_plugin"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(name: "FlutterFramework", path: "../FlutterFramework")
+    ],
     targets: [
         .target(
             name: "flutter_liveness_detection_randomized_plugin",
-            dependencies: [],
-            path: "Classes",
+            dependencies: [
+                .product(name: "FlutterFramework", package: "FlutterFramework")
+            ],
             resources: [
-                .process("../Resources/PrivacyInfo.xcprivacy")
+                .process("PrivacyInfo.xcprivacy")
             ]
         )
     ]
