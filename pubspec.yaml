@@ -12,7 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  google_mlkit_face_detection: ^0.14.0
+  google_mlkit_face_detection:
+    git:
+      url: https://github.com/bagussubagja/google_ml_kit_flutter.git
+      ref: b506f340c31d862cc72b826378b2ee93d922239a
+      path: packages/google_mlkit_face_detection
   camera: ^0.12.0+2
   equatable: ^2.0.5
   image: ^4.9.1
