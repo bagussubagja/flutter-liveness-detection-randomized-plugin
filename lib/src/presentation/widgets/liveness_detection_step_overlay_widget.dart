@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_liveness_detection_randomized_plugin/index.dart';
 import 'package:flutter_liveness_detection_randomized_plugin/src/presentation/widgets/circular_progress_widget/circular_progress_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -112,9 +112,7 @@ class LivenessDetectionStepOverlayWidgetState
       maxStep: _indicatorMaxStep,
       child: Transform.scale(
         scale: scale,
-        child: Center(
-          child: widget.camera,
-        ),
+        child: Center(child: widget.camera),
       ),
     );
   }
@@ -203,9 +201,10 @@ class LivenessDetectionStepOverlayWidgetState
                         Text(
                           'Back',
                           style: TextStyle(
-                              color: widget.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black),
+                            color: widget.isDarkMode
+                                ? Colors.white
+                                : Colors.black,
+                          ),
                         ),
                         Visibility(
                           replacement: const SizedBox.shrink(),
@@ -223,16 +222,19 @@ class LivenessDetectionStepOverlayWidgetState
                         Text(
                           stepCounter,
                           style: TextStyle(
-                              color: widget.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black),
-                        )
+                            color: widget.isDarkMode
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                       ],
                     )
-                  : Text('Back',
+                  : Text(
+                      'Back',
                       style: TextStyle(
-                          color:
-                              widget.isDarkMode ? Colors.white : Colors.black)),
+                        color: widget.isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
             ),
             _buildBody(),
           ],
@@ -294,21 +296,24 @@ class LivenessDetectionStepOverlayWidgetState
                 )
               : ColorFiltered(
                   colorFilter: ColorFilter.mode(
-                      widget.isFaceDetected ? Colors.green : Colors.black,
-                      BlendMode.modulate),
+                    widget.isFaceDetected ? Colors.green : Colors.black,
+                    BlendMode.modulate,
+                  ),
                   child: LottieBuilder.asset(
                     widget.isFaceDetected
                         ? 'packages/flutter_liveness_detection_randomized_plugin/src/core/assets/face-detected.json'
                         : 'packages/flutter_liveness_detection_randomized_plugin/src/core/assets/face-id-anim.json',
                     height: widget.isFaceDetected ? 32 : 22,
                     width: widget.isFaceDetected ? 32 : 22,
-                  )),
+                  ),
+                ),
         ),
         const SizedBox(width: 16),
         Text(
           widget.isFaceDetected ? 'User Face Found' : 'User Face Not Found...',
-          style:
-              TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+          style: TextStyle(
+            color: widget.isDarkMode ? Colors.white : Colors.black,
+          ),
         ),
       ],
     );

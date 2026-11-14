@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_liveness_detection_randomized_plugin/src/presentation/widgets/circular_progress_widget/circular_progress_painter.dart';
 
 class CircularProgressWidget extends StatefulWidget {
@@ -49,18 +49,16 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget>
       vsync: this,
       duration: widget.duration,
     );
-    _animation = Tween(begin: 0.0, end: widget.current).animate(
-      CurvedAnimation(
-        parent: _animationController!,
-        curve: widget.curve,
-      ),
-    )..addListener(() {
-        if (mounted) {
-          setState(() {
-            _current = _animation!.value;
-          });
-        }
-      });
+    _animation =
+        Tween(begin: 0.0, end: widget.current).animate(
+          CurvedAnimation(parent: _animationController!, curve: widget.curve),
+        )..addListener(() {
+          if (mounted) {
+            setState(() {
+              _current = _animation!.value;
+            });
+          }
+        });
 
     _animationController!.forward();
   }
@@ -76,15 +74,13 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.current != widget.current) {
       if (_animationController != null) {
-        _animation = Tween(
-          begin: oldWidget.current,
-          end: widget.current,
-        ).animate(
-          CurvedAnimation(
-            parent: _animationController!,
-            curve: widget.curve,
-          ),
-        );
+        _animation = Tween(begin: oldWidget.current, end: widget.current)
+            .animate(
+              CurvedAnimation(
+                parent: _animationController!,
+                curve: widget.curve,
+              ),
+            );
         _animationController?.forward(from: 0.0);
       } else {
         _updateProgress();
@@ -123,9 +119,7 @@ class _CircularProgressWidgetState extends State<CircularProgressWidget>
                 child: Padding(
                   padding: EdgeInsets.all(widget.heightLine),
                   child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: const BoxDecoration(shape: BoxShape.circle),
                     clipBehavior: Clip.antiAlias,
                     child: widget.child,
                   ),

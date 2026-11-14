@@ -16,7 +16,10 @@ class LivenessCooldownService {
 
   LivenessCooldownService._();
 
-  void configure({required int maxFailedAttempts, required int cooldownMinutes}) {
+  void configure({
+    required int maxFailedAttempts,
+    required int cooldownMinutes,
+  }) {
     _maxFailedAttempts = maxFailedAttempts;
     _cooldownMinutes = cooldownMinutes;
   }
