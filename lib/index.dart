@@ -4,7 +4,7 @@ export 'dart:async';
 export 'dart:math';
 export 'package:camera/camera.dart';
 export 'package:equatable/equatable.dart';
-export 'package:flutter/material.dart';
+export 'package:material_ui/material_ui.dart';
 export 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 export 'package:flutter_liveness_detection_randomized_plugin/src/models/liveness_detection_step_item.dart';
 export 'package:flutter_liveness_detection_randomized_plugin/src/models/liveness_detection_config.dart';

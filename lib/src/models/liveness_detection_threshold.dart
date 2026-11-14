@@ -11,21 +11,15 @@ abstract class LivenessDetectionThreshold extends Equatable {
 class LivenessThresholdSmile extends LivenessDetectionThreshold {
   final double probability;
 
-  LivenessThresholdSmile({
-    this.probability = 0.75,
-  }) : super() {
+  LivenessThresholdSmile({this.probability = 0.75}) : super() {
     assert(
-    probability < 1.0 || probability > 0.0,
-    "Smile Probability has to be between 1.0 and 0.0",
+      probability < 1.0 || probability > 0.0,
+      "Smile Probability has to be between 1.0 and 0.0",
     );
   }
 
-  LivenessThresholdSmile copyWith({
-    double? probability,
-  }) {
-    return LivenessThresholdSmile(
-      probability: probability ?? this.probability,
-    );
+  LivenessThresholdSmile copyWith({double? probability}) {
+    return LivenessThresholdSmile(probability: probability ?? this.probability);
   }
 
   @override
@@ -37,7 +31,6 @@ class LivenessThresholdSmile extends LivenessDetectionThreshold {
     return result;
   }
 
-  @override
   factory LivenessThresholdSmile.fromMap(Map<String, dynamic> map) {
     return LivenessThresholdSmile(
       probability: map['probability']?.toDouble() ?? 0.0,
@@ -71,7 +64,6 @@ class LivenessThresholdSmile extends LivenessDetectionThreshold {
 }
 
 class LivenessThresholdBlink extends LivenessDetectionThreshold {
-
   final double leftEyeProbability;
   final double rightEyeProbability;
 
@@ -80,12 +72,12 @@ class LivenessThresholdBlink extends LivenessDetectionThreshold {
     this.rightEyeProbability = 0.25,
   }) : super() {
     assert(
-    leftEyeProbability < 1.0 || leftEyeProbability > 0.0,
-    "Left Probability has to be between 1.0 and 0.0",
+      leftEyeProbability < 1.0 || leftEyeProbability > 0.0,
+      "Left Probability has to be between 1.0 and 0.0",
     );
     assert(
-    rightEyeProbability < 1.0 || rightEyeProbability > 0.0,
-    "Right Probability has to be between 1.0 and 0.0",
+      rightEyeProbability < 1.0 || rightEyeProbability > 0.0,
+      "Right Probability has to be between 1.0 and 0.0",
     );
   }
 
@@ -147,21 +139,17 @@ class LivenessThresholdBlink extends LivenessDetectionThreshold {
   }
 }
 
-class LivenessThresholdHead extends LivenessDetectionThreshold{
+class LivenessThresholdHead extends LivenessDetectionThreshold {
   final double rotationAngle;
 
-  LivenessThresholdHead({
-    this.rotationAngle = 45.0,
-  }) : super() {
+  LivenessThresholdHead({this.rotationAngle = 45.0}) : super() {
     assert(
-    rotationAngle > 180.0 || rotationAngle > 0.0,
-    "To detect the livelyness of the face, it has to be properly visible in the camera. The threshold angle should be more than 0.0 degrees and less than 180 degrees.",
+      rotationAngle > 180.0 || rotationAngle > 0.0,
+      "To detect the livelyness of the face, it has to be properly visible in the camera. The threshold angle should be more than 0.0 degrees and less than 180 degrees.",
     );
   }
 
-  LivenessThresholdHead copyWith({
-    double? rotationAngle,
-  }) {
+  LivenessThresholdHead copyWith({double? rotationAngle}) {
     return LivenessThresholdHead(
       rotationAngle: rotationAngle ?? this.rotationAngle,
     );
@@ -188,8 +176,7 @@ class LivenessThresholdHead extends LivenessDetectionThreshold{
       LivenessThresholdHead.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'LivenessThresholdHead(rotationAngle: $rotationAngle)';
+  String toString() => 'LivenessThresholdHead(rotationAngle: $rotationAngle)';
 
   @override
   bool operator ==(Object other) {

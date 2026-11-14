@@ -11,10 +11,7 @@ List<CameraDescription> availableCams = [];
 class LivenessDetectionView extends StatefulWidget {
   final LivenessDetectionConfig config;
 
-  const LivenessDetectionView({
-    super.key,
-    required this.config,
-  });
+  const LivenessDetectionView({super.key, required this.config});
 
   @override
   State<LivenessDetectionView> createState() => _LivenessDetectionScreenState();
@@ -211,7 +208,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
     _timerToDetectFace?.cancel();
     _timerToDetectFace = null;
     _cameraController?.dispose();
-    
+
     if (widget.config.isEnableMaxBrightness) {
       resetApplicationBrightness();
     }
@@ -220,10 +217,10 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
 
   void _preInitCallBack() {
     _isInfoStepCompleted = !widget.config.startWithInfoScreen;
-    
+
     // Initialize and shuffle steps fresh each time
     _initializeShuffledSteps();
-    
+
     if (widget.config.isEnableMaxBrightness) {
       setApplicationBrightness(1.0);
     }
@@ -347,10 +344,7 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
         final currentIndex = _stepsKey.currentState?.currentIndex ?? 0;
         List<LivenessDetectionStepItem> currentSteps = _getStepsToUse();
         if (currentIndex < currentSteps.length) {
-          _detectFace(
-            face: faces.first,
-            step: currentSteps[currentIndex].step,
-          );
+          _detectFace(face: faces.first, step: currentSteps[currentIndex].step);
         }
       }
     } else {
@@ -453,18 +447,18 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
 
   void _resetSteps() {
     List<LivenessDetectionStepItem> currentSteps = _getStepsToUse();
-    
+
     for (var step in currentSteps) {
       final index = currentSteps.indexWhere((p1) => p1.step == step.step);
       if (index != -1) {
         currentSteps[index] = currentSteps[index].copyWith();
       }
     }
-    
+
     if (_stepsKey.currentState?.currentIndex != 0) {
       _stepsKey.currentState?.reset();
     }
-    
+
     if (mounted) setState(() {});
   }
 
@@ -481,20 +475,23 @@ class _LivenessDetectionScreenState extends State<LivenessDetectionView> {
   /// Initialize and shuffle steps fresh each time
   void _initializeShuffledSteps() {
     List<LivenessDetectionStepItem> baseSteps;
-    
-    if (widget.config.useCustomizedLabel && widget.config.customizedLabel != null) {
+
+    if (widget.config.useCustomizedLabel &&
+        widget.config.customizedLabel != null) {
       baseSteps = customizedLivenessLabel(widget.config.customizedLabel!);
     } else {
-      baseSteps = List.from(stepLiveness); // Create a copy to avoid modifying the original
+      baseSteps = List.from(
+        stepLiveness,
+      ); // Create a copy to avoid modifying the original
     }
-    
+
     shuffleListLivenessChallenge(
       list: baseSteps,
       isSmileLast: widget.config.useCustomizedLabel
           ? false
           : widget.config.shuffleListWithSmileLast,
     );
-    
+
     _shuffledSteps = baseSteps;
   }
 

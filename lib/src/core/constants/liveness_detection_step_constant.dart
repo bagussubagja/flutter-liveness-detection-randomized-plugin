@@ -21,8 +21,5 @@ List<LivenessDetectionStepItem> stepLiveness = [
     step: LivenessDetectionStep.lookLeft,
     title: "Look LEFT",
   ),
-  LivenessDetectionStepItem(
-    step: LivenessDetectionStep.smile,
-    title: "Smile",
-  ),
+  LivenessDetectionStepItem(step: LivenessDetectionStep.smile, title: "Smile"),
 ];
